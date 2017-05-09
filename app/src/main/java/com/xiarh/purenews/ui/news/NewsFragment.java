@@ -16,8 +16,6 @@ import butterknife.BindView;
 
 public class NewsFragment extends BaseFragment {
 
-    @BindView(R.id.swiperefreshlayout)
-    SwipeRefreshLayout mSwipeRefreshLayout;
     @BindView(R.id.news_viewpager)
     ViewPager mViewPager;
 
@@ -47,6 +45,6 @@ public class NewsFragment extends BaseFragment {
 
     @Override
     protected void init() {
-        mSwipeRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.colorAccent));
+
     }
 }
