@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">PureNews</string>
+    <string name="news">新闻</string>
+    <string name="video">视频</string>
+    <string name="star">喜欢</string>
+    <string name="person_center">我的</string>
+</resources>
