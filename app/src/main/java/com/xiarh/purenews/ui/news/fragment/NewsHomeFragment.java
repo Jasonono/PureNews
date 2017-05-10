@@ -1,5 +1,7 @@
-package com.xiarh.purenews.ui.news;
+package com.xiarh.purenews.ui.news.fragment;
 
+import android.os.Build;
+import android.support.annotation.RequiresApi;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -8,6 +10,7 @@ import android.support.v4.view.ViewPager;
 
 import com.xiarh.purenews.R;
 import com.xiarh.purenews.base.BaseFragment;
+import com.xiarh.purenews.config.Config;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,7 +31,7 @@ public class NewsHomeFragment extends BaseFragment {
 
     private List<Fragment> mFragments = new ArrayList<>();
 
-    private String[] mTitles = {"军事", "体育", "科技", "教育", "娱乐", "财经", "股票", "旅游", "女人"};
+    private String[] mTitles = {"军事", "体育", "科技", "教育", "娱乐", "财经", "旅游", "女人"};
 
     private TitleAdapter mAdapter;
 
@@ -37,11 +40,17 @@ public class NewsHomeFragment extends BaseFragment {
         return R.layout.frg_news_home;
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void init() {
-        for (int i = 0; i < mTitles.length; i++) {
-            mFragments.add(NewsFragment.newInstance(mTitles[i]));
-        }
+        mFragments.add(NewsFragment.newInstance(Config.NEWS_WAR));
+        mFragments.add(NewsFragment.newInstance(Config.NEWS_SPORT));
+        mFragments.add(NewsFragment.newInstance(Config.NEWS_TECH));
+        mFragments.add(NewsFragment.newInstance(Config.NEWS_EDU));
+        mFragments.add(NewsFragment.newInstance(Config.NEWS_ENT));
+        mFragments.add(NewsFragment.newInstance(Config.NEWS_MONEY));
+        mFragments.add(NewsFragment.newInstance(Config.NEWS_TRAVEL));
+        mFragments.add(NewsFragment.newInstance(Config.NEWS_LADY));
         mAdapter = new TitleAdapter(getChildFragmentManager(), mFragments, mTitles);
         mViewPager.setAdapter(mAdapter);
         mTabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);

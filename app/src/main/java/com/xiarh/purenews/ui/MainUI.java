@@ -7,7 +7,7 @@ import com.aurelhubert.ahbottomnavigation.AHBottomNavigation;
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigationItem;
 import com.xiarh.purenews.R;
 import com.xiarh.purenews.base.BaseActivity;
-import com.xiarh.purenews.ui.news.NewsHomeFragment;
+import com.xiarh.purenews.ui.news.fragment.NewsHomeFragment;
 
 import butterknife.BindView;
 
