@@ -35,9 +35,13 @@ public class MainUI extends BaseActivity {
         mBottomNavigation.setOnTabSelectedListener(new AHBottomNavigation.OnTabSelectedListener() {
             @Override
             public boolean onTabSelected(int position, boolean wasSelected) {
-                FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-                ft.replace(R.id.content, new NewsHomeFragment(), "首页");
-                ft.commit();
+                switch (position) {
+                    case 0:
+                        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+                        ft.replace(R.id.content, new NewsHomeFragment(), "首页");
+                        ft.commit();
+                        break;
+                }
                 return true;
             }
         });

@@ -1,7 +1,5 @@
 package com.xiarh.purenews.ui.news.fragment;
 
-import android.os.Build;
-import android.support.annotation.RequiresApi;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -40,7 +38,6 @@ public class NewsHomeFragment extends BaseFragment {
         return R.layout.frg_news_home;
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void init() {
         mFragments.add(NewsFragment.newInstance(Config.NEWS_WAR));
