@@ -6,14 +6,17 @@ import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.google.gson.Gson;
 import com.xiarh.purenews.R;
 import com.xiarh.purenews.base.BaseFragment;
+import com.xiarh.purenews.bean.NewsBean;
 import com.xiarh.purenews.bean.NewsResponse;
 import com.xiarh.purenews.config.Config;
 import com.xiarh.purenews.ui.news.adapter.NewsAdapter;
+import com.xiarh.purenews.util.WebUtil;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
 
@@ -72,6 +75,13 @@ public class NewsFragment extends BaseFragment implements SwipeRefreshLayout.OnR
         mSwipeRefreshLayout.setOnRefreshListener(this);
         mAdapter = new NewsAdapter();
         mAdapter.setOnLoadMoreListener(this, mRecyclerView);
+        mAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                NewsBean bean = (NewsBean) adapter.getData().get(position);
+                WebUtil.openWeb(getActivity(), bean.getTitle(), bean.getDocurl());
+            }
+        });
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         mRecyclerView.setAdapter(mAdapter);
         mSwipeRefreshLayout.postDelayed(new Runnable() {
@@ -90,12 +100,6 @@ public class NewsFragment extends BaseFragment implements SwipeRefreshLayout.OnR
     public void onRefresh() {
         page = 1;
         getNewsData(page, true);
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                mSwipeRefreshLayout.setRefreshing(false);
-            }
-        }, delayMillis);
     }
 
     /**
@@ -152,6 +156,14 @@ public class NewsFragment extends BaseFragment implements SwipeRefreshLayout.OnR
                         if (null != newsResponse) {
                             if (isRefresh) {
                                 mAdapter.setNewData(newsResponse.getList());
+                                new Handler().postDelayed(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        if (null != mSwipeRefreshLayout && mSwipeRefreshLayout.isRefreshing()) {
+                                            mSwipeRefreshLayout.setRefreshing(false);
+                                        }
+                                    }
+                                }, delayMillis);
                             } else {
                                 mAdapter.addData(newsResponse.getList());
                             }
