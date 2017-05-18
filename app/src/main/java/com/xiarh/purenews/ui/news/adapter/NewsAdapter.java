@@ -21,6 +21,6 @@ public class NewsAdapter extends BaseQuickAdapter<NewsBean, BaseViewHolder> {
     @Override
     protected void convert(BaseViewHolder baseViewHolder, NewsBean item) {
         baseViewHolder.setText(R.id.tv_news, item.getTitle());
-        ImageLoader.getInstance().with(mContext, item.getImgurl(), (ImageView) baseViewHolder.getView(R.id.img_news));
+        ImageLoader.getInstance().with(mContext, item.getPicUrl(), (ImageView) baseViewHolder.getView(R.id.img_news));
     }
 }

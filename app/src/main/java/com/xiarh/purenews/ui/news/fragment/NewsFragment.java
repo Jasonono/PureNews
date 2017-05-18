@@ -45,8 +45,6 @@ public class NewsFragment extends BaseFragment implements SwipeRefreshLayout.OnR
 
     private int delayMillis = 500;
 
-    private boolean isErr = false;
-
     public static NewsFragment newInstance(String type) {
         NewsFragment newsFragment = new NewsFragment();
         Bundle bundle = new Bundle();
@@ -79,7 +77,7 @@ public class NewsFragment extends BaseFragment implements SwipeRefreshLayout.OnR
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                 NewsBean bean = (NewsBean) adapter.getData().get(position);
-                WebUtil.openWeb(getActivity(), bean.getTitle(), bean.getDocurl());
+                WebUtil.openWeb(getActivity(), bean.getTitle(), bean.getUrl());
             }
         });
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -87,8 +85,10 @@ public class NewsFragment extends BaseFragment implements SwipeRefreshLayout.OnR
         mSwipeRefreshLayout.postDelayed(new Runnable() {
             @Override
             public void run() {
-                mSwipeRefreshLayout.setRefreshing(true);
-                getNewsData(page, true);
+                if (null != mSwipeRefreshLayout && mSwipeRefreshLayout.isRefreshing()) {
+                    mSwipeRefreshLayout.setRefreshing(true);
+                    getNewsData(page, true);
+                }
             }
         }, delayMillis);
     }
@@ -109,23 +109,6 @@ public class NewsFragment extends BaseFragment implements SwipeRefreshLayout.OnR
     public void onLoadMoreRequested() {
         page++;
         getNewsData(page, false);
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                if (isErr) {
-                    //数据加载失败
-                    mAdapter.loadMoreFail();
-                } else {
-                    if (mAdapter.getData().size() < page_size) {
-                        //数据全部加载完毕
-                        mAdapter.loadMoreEnd(true);
-                    } else {
-                        //新增数据
-                        mAdapter.loadMoreComplete();
-                    }
-                }
-            }
-        }, delayMillis);
     }
 
     /**
@@ -137,16 +120,19 @@ public class NewsFragment extends BaseFragment implements SwipeRefreshLayout.OnR
     private void getNewsData(int page, final boolean isRefresh) {
         OkHttpUtils
                 .get()
-                .url(Config.NEWS_URL)
-                .addParams("type", mType)
+                .url(Config.NEWS_URL + mType + "/")
                 .addParams("page", page + "")
-                .addParams("limit", page_size + "")
+                .addParams("num", page_size + "")
+                .addParams("key", Config.KEY)
                 .build()
                 .execute(new StringCallback() {
                     @Override
                     public void onError(Call call, Exception e, int id) {
                         Toasty.normal(getActivity(), e.getMessage()).show();
-                        isErr = true;
+                        if (!isRefresh) {
+                            //加载失败
+                            mAdapter.loadMoreFail();
+                        }
                     }
 
                     @Override
@@ -155,17 +141,26 @@ public class NewsFragment extends BaseFragment implements SwipeRefreshLayout.OnR
                         NewsResponse newsResponse = gson.fromJson(response, NewsResponse.class);
                         if (null != newsResponse) {
                             if (isRefresh) {
-                                mAdapter.setNewData(newsResponse.getList());
-                                new Handler().postDelayed(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        if (null != mSwipeRefreshLayout && mSwipeRefreshLayout.isRefreshing()) {
-                                            mSwipeRefreshLayout.setRefreshing(false);
+                                if (newsResponse.getCode() == 200) {
+                                    mAdapter.setNewData(newsResponse.getNewslist());
+                                    new Handler().postDelayed(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            if (null != mSwipeRefreshLayout && mSwipeRefreshLayout.isRefreshing()) {
+                                                mSwipeRefreshLayout.setRefreshing(false);
+                                            }
                                         }
-                                    }
-                                }, delayMillis);
+                                    }, delayMillis);
+                                }
                             } else {
-                                mAdapter.addData(newsResponse.getList());
+                                if (newsResponse.getCode() == 200) {
+                                    mAdapter.addData(newsResponse.getNewslist());
+                                    //加载完成
+                                    mAdapter.loadMoreComplete();
+                                } else {
+                                    //全部加载完毕
+                                    mAdapter.loadMoreEnd();
+                                }
                             }
                         }
                     }

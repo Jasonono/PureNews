@@ -6,61 +6,25 @@ package com.xiarh.purenews.bean;
 
 public class NewsBean {
     /**
-     * imgurl : http://cms-bucket.nosdn.127.net/23e1a1e099b8457c8911916d63ad95bd20170509143411.jpeg
-     * has_content : true
-     * docurl : http://war.163.com/17/0509/14/CK0J15K4000181KT.html
-     * id : 4582
-     * time : 2017-05-09 14:34:18
-     * title : 叙反政府武装人员从大马士革北郊撤离
-     * channelname : war
+     * ctime : 2017-05-16 14:37
+     * title : 前美国商务部长：美国退出TPP是不理性的决定
+     * description : 搜狐国际
+     * picUrl : http://photocdn.sohu.com/20170516/Img493203719_ss.jpg
+     * url : http://news.sohu.com/20170516/n493212660.shtml
      */
 
-    private String imgurl;
-    private boolean has_content;
-    private String docurl;
-    private int id;
-    private String time;
+    private String ctime;
     private String title;
-    private String channelname;
+    private String description;
+    private String picUrl;
+    private String url;
 
-    public String getImgurl() {
-        return imgurl;
+    public String getCtime() {
+        return ctime;
     }
 
-    public void setImgurl(String imgurl) {
-        this.imgurl = imgurl;
-    }
-
-    public boolean isHas_content() {
-        return has_content;
-    }
-
-    public void setHas_content(boolean has_content) {
-        this.has_content = has_content;
-    }
-
-    public String getDocurl() {
-        return docurl;
-    }
-
-    public void setDocurl(String docurl) {
-        this.docurl = docurl;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getTime() {
-        return time;
-    }
-
-    public void setTime(String time) {
-        this.time = time;
+    public void setCtime(String ctime) {
+        this.ctime = ctime;
     }
 
     public String getTitle() {
@@ -71,11 +35,27 @@ public class NewsBean {
         this.title = title;
     }
 
-    public String getChannelname() {
-        return channelname;
+    public String getDescription() {
+        return description;
     }
 
-    public void setChannelname(String channelname) {
-        this.channelname = channelname;
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getPicUrl() {
+        return picUrl;
+    }
+
+    public void setPicUrl(String picUrl) {
+        this.picUrl = picUrl;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
     }
 }

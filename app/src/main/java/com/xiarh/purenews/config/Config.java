@@ -6,7 +6,9 @@ package com.xiarh.purenews.config;
 
 public class Config {
 
-    public static final String NEWS_URL = "http://wangyi.butterfly.mopaasapp.com/news/api";
+    public static final String KEY = "1ae28fc9dd5afadc696ad94cd59426d8";
+
+    public static final String NEWS_URL = "http://api.tianapi.com/";
 
     public static final String NEWS_WAR = "war";
 
