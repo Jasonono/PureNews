@@ -27,7 +27,6 @@ import com.xiarh.purenews.base.BaseActivity;
 import java.lang.reflect.Method;
 
 import butterknife.BindView;
-import es.dmoral.toasty.Toasty;
 
 /**
  * Created by xiarh on 2017/5/15.

@@ -6,24 +6,40 @@ package com.xiarh.purenews.config;
 
 public class Config {
 
-    public static final String KEY = "1ae28fc9dd5afadc696ad94cd59426d8";
+    public static int PAGE_SIZE = 10;
 
-    public static final String NEWS_URL = "http://api.tianapi.com/";
+    public static final String NEWS_URL = "http://c.m.163.com/nc/article/";
 
-    public static final String NEWS_WAR = "war";
+    public static final String NEWS_END_URL = "-" + PAGE_SIZE + ".html";
 
-    public static final String NEWS_SPORT = "sport";
+    // 头条TYPE
+    public static final String HEADLINE_TYPE = "headline";
+    // 其他TYPE
+    public static final String OTHER_TYPE = "list";
 
-    public static final String NEWS_TECH = "tech";
+    // 头条id
+    public static final String HEADLINE_ID = "T1348647909107";
+    // 汽车id
+    public static final String CAR_ID = "T1348654060988";
 
-    public static final String NEWS_EDU = "edu";
 
-    public static final String NEWS_ENT = "ent";
-
-    public static final String NEWS_MONEY = "money";
-
-    public static final String NEWS_TRAVEL = "travel";
-
-    public static final String NEWS_LADY = "lady";
-
+    /**
+     * 获取网址
+     *
+     * @param id
+     * @param index
+     * @return
+     */
+    public static String getUrl(String id, int index) {
+        String url;
+        switch (id) {
+            case Config.HEADLINE_ID:
+                url = Config.NEWS_URL + HEADLINE_TYPE + "/" + id + "/" + index + NEWS_END_URL;
+                break;
+            default:
+                url = Config.NEWS_URL + OTHER_TYPE + "/" + id + "/" + index + NEWS_END_URL;
+                break;
+        }
+        return url;
+    }
 }

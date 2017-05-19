@@ -29,8 +29,7 @@ public class NewsHomeFragment extends BaseFragment {
 
     private List<Fragment> mFragments = new ArrayList<>();
 
-    private String[] mTitles = {"社会新闻", "国内新闻", "国际新闻", "娱乐新闻", "体育新闻", "NBA新闻", "足球新闻", "科技新闻"
-            , "创业新闻", "苹果新闻", "军事新闻", "移动互联", "旅游资讯", "健康知识", "奇闻异事", "美女图片", "VR科技", "IT资讯"};
+    private String[] mTitles = { "头条","汽车"};
 
     private TitleAdapter mAdapter;
 
@@ -41,24 +40,8 @@ public class NewsHomeFragment extends BaseFragment {
 
     @Override
     protected void init() {
-        mFragments.add(NewsFragment.newInstance("social"));
-        mFragments.add(NewsFragment.newInstance("guonei"));
-        mFragments.add(NewsFragment.newInstance("world"));
-        mFragments.add(NewsFragment.newInstance("huabian"));
-        mFragments.add(NewsFragment.newInstance("tiyu"));
-        mFragments.add(NewsFragment.newInstance("nba"));
-        mFragments.add(NewsFragment.newInstance("football"));
-        mFragments.add(NewsFragment.newInstance("keji"));
-        mFragments.add(NewsFragment.newInstance("startup"));
-        mFragments.add(NewsFragment.newInstance("apple"));
-        mFragments.add(NewsFragment.newInstance("military"));
-        mFragments.add(NewsFragment.newInstance("mobile"));
-        mFragments.add(NewsFragment.newInstance("travel"));
-        mFragments.add(NewsFragment.newInstance("health"));
-        mFragments.add(NewsFragment.newInstance("qiwen"));
-        mFragments.add(NewsFragment.newInstance("meinv"));
-        mFragments.add(NewsFragment.newInstance("vr"));
-        mFragments.add(NewsFragment.newInstance("it"));
+        mFragments.add(NewsFragment.newInstance(Config.HEADLINE_ID));
+        mFragments.add(NewsFragment.newInstance(Config.CAR_ID));
         mAdapter = new TitleAdapter(getChildFragmentManager(), mFragments, mTitles);
         mViewPager.setAdapter(mAdapter);
         mTabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);

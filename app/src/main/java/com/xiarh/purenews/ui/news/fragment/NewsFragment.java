@@ -10,19 +10,25 @@ import android.view.View;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+import com.lzy.okgo.OkGo;
+import com.lzy.okgo.callback.StringCallback;
 import com.xiarh.purenews.R;
 import com.xiarh.purenews.base.BaseFragment;
 import com.xiarh.purenews.bean.NewsBean;
-import com.xiarh.purenews.bean.NewsResponse;
 import com.xiarh.purenews.config.Config;
 import com.xiarh.purenews.ui.news.adapter.NewsAdapter;
 import com.xiarh.purenews.util.WebUtil;
-import com.zhy.http.okhttp.OkHttpUtils;
-import com.zhy.http.okhttp.callback.StringCallback;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
-import es.dmoral.toasty.Toasty;
 import okhttp3.Call;
+import okhttp3.Response;
 
 /**
  * Created by xiarh on 2017/5/9.
@@ -35,20 +41,19 @@ public class NewsFragment extends BaseFragment implements SwipeRefreshLayout.OnR
     @BindView(R.id.recyclerview_news)
     RecyclerView mRecyclerView;
 
-    private String mType;
+    private String mID;
 
     private NewsAdapter mAdapter;
 
-    private int page = 1;
+    private int mIndex = 0;
 
-    private int page_size = 10;
+    private int mDelayMillis = 500;
 
-    private int delayMillis = 500;
 
     public static NewsFragment newInstance(String type) {
         NewsFragment newsFragment = new NewsFragment();
         Bundle bundle = new Bundle();
-        bundle.putString("mType", type);
+        bundle.putString("mID", type);
         newsFragment.setArguments(bundle);
         return newsFragment;
     }
@@ -58,7 +63,7 @@ public class NewsFragment extends BaseFragment implements SwipeRefreshLayout.OnR
         super.onCreate(savedInstanceState);
         Bundle args = getArguments();
         if (args != null) {
-            mType = args.getString("mType");
+            mID = args.getString("mID");
         }
     }
 
@@ -77,7 +82,7 @@ public class NewsFragment extends BaseFragment implements SwipeRefreshLayout.OnR
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                 NewsBean bean = (NewsBean) adapter.getData().get(position);
-                WebUtil.openWeb(getActivity(), bean.getTitle(), bean.getUrl());
+                WebUtil.openWeb(getActivity(), bean.getTitle(), bean.getUrl_3w());
             }
         });
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -85,12 +90,12 @@ public class NewsFragment extends BaseFragment implements SwipeRefreshLayout.OnR
         mSwipeRefreshLayout.postDelayed(new Runnable() {
             @Override
             public void run() {
-                if (null != mSwipeRefreshLayout && mSwipeRefreshLayout.isRefreshing()) {
+                if (null != mSwipeRefreshLayout) {
                     mSwipeRefreshLayout.setRefreshing(true);
-                    getNewsData(page, true);
                 }
             }
-        }, delayMillis);
+        }, mDelayMillis);
+        getNewsData(0, mID, mIndex);
     }
 
     /**
@@ -98,8 +103,8 @@ public class NewsFragment extends BaseFragment implements SwipeRefreshLayout.OnR
      */
     @Override
     public void onRefresh() {
-        page = 1;
-        getNewsData(page, true);
+        mIndex = 0;
+        getNewsData(0, mID, mIndex);
     }
 
     /**
@@ -107,42 +112,41 @@ public class NewsFragment extends BaseFragment implements SwipeRefreshLayout.OnR
      */
     @Override
     public void onLoadMoreRequested() {
-        page++;
-        getNewsData(page, false);
+        mIndex = mIndex + 10;
+        getNewsData(1, mID, mIndex);
     }
 
     /**
      * 加载数据
      *
-     * @param page      页数
-     * @param isRefresh true 下拉刷新 false 上拉加载
+     * @param index    页数
+     * @param loadType 数据加载方式 0：下拉刷新 1：上拉加载
+     * @param id
      */
-    private void getNewsData(int page, final boolean isRefresh) {
-        OkHttpUtils
-                .get()
-                .url(Config.NEWS_URL + mType + "/")
-                .addParams("page", page + "")
-                .addParams("num", page_size + "")
-                .addParams("key", Config.KEY)
-                .build()
+    private void getNewsData(final int loadType, final String id, int index) {
+        OkGo.get(Config.getUrl(id, index))
+                .tag(this)
                 .execute(new StringCallback() {
                     @Override
-                    public void onError(Call call, Exception e, int id) {
-                        Toasty.normal(getActivity(), e.getMessage()).show();
-                        if (!isRefresh) {
-                            //加载失败
-                            mAdapter.loadMoreFail();
-                        }
-                    }
-
-                    @Override
-                    public void onResponse(String response, int id) {
-                        Gson gson = new Gson();
-                        NewsResponse newsResponse = gson.fromJson(response, NewsResponse.class);
-                        if (null != newsResponse) {
-                            if (isRefresh) {
-                                if (newsResponse.getCode() == 200) {
-                                    mAdapter.setNewData(newsResponse.getNewslist());
+                    public void onSuccess(String s, Call call, Response response) {
+                        try {
+                            List<NewsBean> beans = new ArrayList<>();
+                            Gson gson = new Gson();
+                            JsonParser parser = new JsonParser();
+                            JsonObject jsonObj = parser.parse(s).getAsJsonObject();
+                            JsonElement jsonElement = jsonObj.get(id);
+                            if (jsonElement == null) {
+                                //全部加载完毕
+                                mAdapter.loadMoreEnd();
+                            } else {
+                                JsonArray jsonArray = jsonElement.getAsJsonArray();
+                                for (int i = 1; i < jsonArray.size(); i++) {
+                                    JsonObject jo = jsonArray.get(i).getAsJsonObject();
+                                    NewsBean bean = gson.fromJson(jo, NewsBean.class);
+                                    beans.add(bean);
+                                }
+                                if (loadType == 0) {
+                                    mAdapter.setNewData(beans);
                                     new Handler().postDelayed(new Runnable() {
                                         @Override
                                         public void run() {
@@ -150,19 +154,22 @@ public class NewsFragment extends BaseFragment implements SwipeRefreshLayout.OnR
                                                 mSwipeRefreshLayout.setRefreshing(false);
                                             }
                                         }
-                                    }, delayMillis);
-                                }
-                            } else {
-                                if (newsResponse.getCode() == 200) {
-                                    mAdapter.addData(newsResponse.getNewslist());
+                                    }, mDelayMillis);
+                                } else if (loadType == 1) {
+                                    mAdapter.addData(beans);
                                     //加载完成
                                     mAdapter.loadMoreComplete();
-                                } else {
-                                    //全部加载完毕
-                                    mAdapter.loadMoreEnd();
                                 }
                             }
+                        } catch (Exception e) {
+
                         }
+                    }
+
+                    @Override
+                    public void onError(Call call, Response response, Exception e) {
+                        super.onError(call, response, e);
+                        mAdapter.loadMoreFail();
                     }
                 });
     }
