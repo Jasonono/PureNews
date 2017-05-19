@@ -124,7 +124,7 @@ public class NewsFragment extends BaseFragment implements SwipeRefreshLayout.OnR
      * @param id
      */
     private void getNewsData(final int loadType, final String id, int index) {
-        OkGo.get(Config.getUrl(id, index))
+        OkGo.get(Config.getNewsUrl(id, index))
                 .tag(this)
                 .execute(new StringCallback() {
                     @Override

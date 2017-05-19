@@ -7,8 +7,6 @@ import com.lzy.okgo.cache.CacheEntity;
 import com.lzy.okgo.cache.CacheMode;
 import com.lzy.okgo.cookie.store.PersistentCookieStore;
 
-import java.util.logging.Level;
-
 /**
  * Created by xiarh on 2017/5/9.
  */
@@ -43,7 +41,7 @@ public class BaseApplication extends Application {
                     .setWriteTimeOut(OkGo.DEFAULT_MILLISECONDS)    //全局的写入超时时间
 
                     //可以全局统一设置缓存模式,默认是不使用缓存,可以不传,具体其他模式看 github 介绍 https://github.com/jeasonlzy/
-                    .setCacheMode(CacheMode.NO_CACHE)
+                    .setCacheMode(CacheMode.IF_NONE_CACHE_REQUEST)
 
                     //可以全局统一设置缓存时间,默认永不过期,具体使用方法看 github 介绍
                     .setCacheTime(CacheEntity.CACHE_NEVER_EXPIRE)

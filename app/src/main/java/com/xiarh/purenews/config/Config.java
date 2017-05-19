@@ -21,7 +21,18 @@ public class Config {
     public static final String HEADLINE_ID = "T1348647909107";
     // 汽车id
     public static final String CAR_ID = "T1348654060988";
-
+    // 足球id
+    public static final String FOOTBALL_ID = "T1399700447917";
+    // 娱乐id
+    public static final String ENTERTAINMENT_ID = "T1348648517839";
+    // 体育id
+    public static final String SPORTS_ID = "T1348649079062";
+    // 财经id
+    public static final String FINANCE_ID = "T1348648756099";
+    // 科技id
+    public static final String TECH_ID = "T1348649580692";
+    // 电影id
+    public static final String MOVIE_ID = "T1348648650048";
 
     /**
      * 获取网址
@@ -30,7 +41,7 @@ public class Config {
      * @param index
      * @return
      */
-    public static String getUrl(String id, int index) {
+    public static String getNewsUrl(String id, int index) {
         String url;
         switch (id) {
             case Config.HEADLINE_ID:
