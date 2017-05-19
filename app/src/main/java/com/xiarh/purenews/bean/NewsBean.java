@@ -1,7 +1,5 @@
 package com.xiarh.purenews.bean;
 
-import java.util.List;
-
 /**
  * Created by xiarh on 2017/5/9.
  */
@@ -43,15 +41,6 @@ public class NewsBean {
     private String subtitle;
     private String boardid;
     private String ptime;
-    /**
-     * editor : []
-     * imgType : 1
-     * articleType : webview
-     */
-
-    private int imgType;
-    private String articleType;
-    private List<?> editor;
 
     public String getUrl_3w() {
         return url_3w;
@@ -179,29 +168,5 @@ public class NewsBean {
 
     public void setPtime(String ptime) {
         this.ptime = ptime;
-    }
-
-    public int getImgType() {
-        return imgType;
-    }
-
-    public void setImgType(int imgType) {
-        this.imgType = imgType;
-    }
-
-    public String getArticleType() {
-        return articleType;
-    }
-
-    public void setArticleType(String articleType) {
-        this.articleType = articleType;
-    }
-
-    public List<?> getEditor() {
-        return editor;
-    }
-
-    public void setEditor(List<?> editor) {
-        this.editor = editor;
     }
 }
