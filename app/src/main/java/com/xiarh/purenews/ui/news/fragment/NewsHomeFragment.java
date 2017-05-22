@@ -35,7 +35,7 @@ public class NewsHomeFragment extends BaseFragment {
 
     @Override
     protected int getLayoutId() {
-        return R.layout.frg_news_home;
+        return R.layout.frg_news;
     }
 
     @Override

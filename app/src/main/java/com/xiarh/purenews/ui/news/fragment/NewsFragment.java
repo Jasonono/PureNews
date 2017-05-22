@@ -1,15 +1,9 @@
 package com.xiarh.purenews.ui.news.fragment;
 
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.Nullable;
-import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.view.View;
 import android.widget.Toast;
 
-import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -17,8 +11,8 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.callback.StringCallback;
-import com.xiarh.purenews.R;
-import com.xiarh.purenews.base.BaseFragment;
+import com.xiarh.purenews.base.AbsListAdapter;
+import com.xiarh.purenews.base.AbsListFragment;
 import com.xiarh.purenews.bean.NewsBean;
 import com.xiarh.purenews.config.Config;
 import com.xiarh.purenews.ui.news.adapter.NewsAdapter;
@@ -27,7 +21,6 @@ import com.xiarh.purenews.util.WebUtil;
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.BindView;
 import okhttp3.Call;
 import okhttp3.Response;
 
@@ -35,21 +28,7 @@ import okhttp3.Response;
  * Created by xiarh on 2017/5/9.
  */
 
-public class NewsFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener, BaseQuickAdapter.RequestLoadMoreListener {
-
-    @BindView(R.id.swipefreshlayout)
-    SwipeRefreshLayout mSwipeRefreshLayout;
-    @BindView(R.id.recyclerview_news)
-    RecyclerView mRecyclerView;
-
-    private String mID;
-
-    private NewsAdapter mAdapter;
-
-    private int mIndex = 0;
-
-    private int mDelayMillis = 500;
-
+public class NewsFragment extends AbsListFragment<NewsBean> {
 
     public static NewsFragment newInstance(String type) {
         NewsFragment newsFragment = new NewsFragment();
@@ -69,62 +48,17 @@ public class NewsFragment extends BaseFragment implements SwipeRefreshLayout.OnR
     }
 
     @Override
-    protected int getLayoutId() {
-        return R.layout.frg_news;
+    protected AbsListAdapter getAdapter() {
+        return new NewsAdapter();
     }
 
     @Override
-    protected void init() {
-        mSwipeRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.black));
-        mSwipeRefreshLayout.setOnRefreshListener(this);
-        mAdapter = new NewsAdapter();
-        mAdapter.setOnLoadMoreListener(this, mRecyclerView);
-        mAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                NewsBean bean = (NewsBean) adapter.getData().get(position);
-                WebUtil.openWeb(getActivity(), bean.getTitle(), bean.getUrl_3w());
-            }
-        });
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        mRecyclerView.setAdapter(mAdapter);
-        mSwipeRefreshLayout.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                if (null != mSwipeRefreshLayout) {
-                    mSwipeRefreshLayout.setRefreshing(true);
-                }
-            }
-        }, mDelayMillis);
-        getNewsData(0, mID, mIndex);
+    protected void onClick(NewsBean bean, int position) {
+        WebUtil.openWeb(getActivity(), bean.getTitle(), bean.getUrl_3w());
     }
 
-    /**
-     * 下拉刷新
-     */
     @Override
-    public void onRefresh() {
-        mIndex = 0;
-        getNewsData(0, mID, mIndex);
-    }
-
-    /**
-     * 上拉加载
-     */
-    @Override
-    public void onLoadMoreRequested() {
-        mIndex = mIndex + 10;
-        getNewsData(1, mID, mIndex);
-    }
-
-    /**
-     * 加载数据
-     *
-     * @param index    页数
-     * @param loadType 数据加载方式 0：下拉刷新 1：上拉加载
-     * @param id
-     */
-    private void getNewsData(final int loadType, final String id, int index) {
+    protected void getData(final String id, int index) {
         OkGo.get(Config.getNewsUrl(id, index))
                 .tag(this)
                 .execute(new StringCallback() {
@@ -137,8 +71,7 @@ public class NewsFragment extends BaseFragment implements SwipeRefreshLayout.OnR
                             JsonObject jsonObj = parser.parse(s).getAsJsonObject();
                             JsonElement jsonElement = jsonObj.get(id);
                             if (jsonElement == null) {
-                                //全部加载完毕
-                                mAdapter.loadMoreEnd();
+                                onDataSuccessReceived(null, LOADNOMORE);
                             } else {
                                 JsonArray jsonArray = jsonElement.getAsJsonArray();
                                 for (int i = 1; i < jsonArray.size(); i++) {
@@ -146,21 +79,7 @@ public class NewsFragment extends BaseFragment implements SwipeRefreshLayout.OnR
                                     NewsBean bean = gson.fromJson(jo, NewsBean.class);
                                     beans.add(bean);
                                 }
-                                if (loadType == 0) {
-                                    mAdapter.setNewData(beans);
-                                    new Handler().postDelayed(new Runnable() {
-                                        @Override
-                                        public void run() {
-                                            if (null != mSwipeRefreshLayout && mSwipeRefreshLayout.isRefreshing()) {
-                                                mSwipeRefreshLayout.setRefreshing(false);
-                                            }
-                                        }
-                                    }, mDelayMillis);
-                                } else if (loadType == 1) {
-                                    mAdapter.addData(beans);
-                                    //加载完成
-                                    mAdapter.loadMoreComplete();
-                                }
+                                onDataSuccessReceived(beans, LOADSUCCESS);
                             }
                         } catch (Exception e) {
                             Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_SHORT).show();
@@ -170,7 +89,7 @@ public class NewsFragment extends BaseFragment implements SwipeRefreshLayout.OnR
                     @Override
                     public void onError(Call call, Response response, Exception e) {
                         super.onError(call, response, e);
-                        mAdapter.loadMoreFail();
+                        onDataSuccessReceived(null, LOADFAIL);
                     }
                 });
     }

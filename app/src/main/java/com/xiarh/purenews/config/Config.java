@@ -8,6 +8,9 @@ public class Config {
 
     public static int PAGE_SIZE = 10;
 
+    /**
+     * http://c.m.163.com/nc/article/headline/T1348647909107/0-20.html
+     */
     public static final String NEWS_URL = "http://c.m.163.com/nc/article/";
 
     public static final String NEWS_END_URL = "-" + PAGE_SIZE + ".html";
@@ -35,7 +38,25 @@ public class Config {
     public static final String MOVIE_ID = "T1348648650048";
 
     /**
-     * 获取网址
+     * 视频 http://c.3g.163.com/nc/video/list/V9LG4CHOR/n/10-10.html
+     */
+    public static final String VIDEO_URL = "http://c.m.163.com/nc/video/list/";
+
+    public static final String VIDEO_CENTER_URL = "/n/";
+
+    public static final String VIDEO_END_URL = "-" + PAGE_SIZE + ".html";
+
+    // 热点视频
+    public static final String VIDEO_HOT_ID = "V9LG4B3A0";
+    // 娱乐视频
+    public static final String VIDEO_ENTERTAINMENT_ID = "V9LG4CHOR";
+    // 搞笑视频
+    public static final String VIDEO_FUN_ID = "V9LG4E6VR";
+    // 精品视频
+    public static final String VIDEO_CHOICE_ID = "00850FRB";
+
+    /**
+     * 获取新闻网址
      *
      * @param id
      * @param index
@@ -52,5 +73,9 @@ public class Config {
                 break;
         }
         return url;
+    }
+
+    public static String getVideoUrl(String id, int index) {
+        return Config.VIDEO_URL + id + Config.VIDEO_CENTER_URL + index + Config.VIDEO_END_URL;
     }
 }
