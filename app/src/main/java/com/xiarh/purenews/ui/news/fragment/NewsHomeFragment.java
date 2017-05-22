@@ -16,7 +16,7 @@ import java.util.List;
 import butterknife.BindView;
 
 /**
- * 新闻
+ * 新闻主页
  * Created by xiarh on 2017/5/9.
  */
 
@@ -29,7 +29,7 @@ public class NewsHomeFragment extends BaseFragment {
 
     private List<Fragment> mFragments = new ArrayList<>();
 
-    private String[] mTitles = { "头条","汽车","足球","娱乐","体育","财经","科技","电影"};
+    private String[] mTitles = {"头条", "汽车", "足球", "娱乐", "体育", "财经", "科技", "电影"};
 
     private TitleAdapter mAdapter;
 

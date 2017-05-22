@@ -4,5 +4,8 @@
     <color name="colorPrimaryDark">#FAFAFA</color>
     <color name="colorAccent">#737373</color>
     <color name="black">#000000</color>
+    <color name="white">#FFFFFF</color>
     <color name="textcolor">#737373</color>
+    <!-- 透明色 -->
+    <color name="transparent">#00FFFFFF</color>
 </resources>
