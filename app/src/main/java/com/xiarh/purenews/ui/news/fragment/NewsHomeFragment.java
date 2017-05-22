@@ -2,12 +2,11 @@ package com.xiarh.purenews.ui.news.fragment;
 
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 
 import com.xiarh.purenews.R;
 import com.xiarh.purenews.base.BaseFragment;
+import com.xiarh.purenews.base.TitleAdapter;
 import com.xiarh.purenews.config.Config;
 
 import java.util.ArrayList;
@@ -52,33 +51,5 @@ public class NewsHomeFragment extends BaseFragment {
         mViewPager.setAdapter(mAdapter);
         mTabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
         mTabLayout.setupWithViewPager(mViewPager);
-    }
-
-    public class TitleAdapter extends FragmentPagerAdapter {
-
-        private List<Fragment> fragments;
-
-        private String[] titles;
-
-        public TitleAdapter(FragmentManager fm, List<Fragment> fragments, String[] titles) {
-            super(fm);
-            this.fragments = fragments;
-            this.titles = titles;
-        }
-
-        @Override
-        public Fragment getItem(int position) {
-            return fragments.get(position);
-        }
-
-        @Override
-        public int getCount() {
-            return fragments.size();
-        }
-
-        @Override
-        public CharSequence getPageTitle(int position) {
-            return titles[position];
-        }
     }
 }

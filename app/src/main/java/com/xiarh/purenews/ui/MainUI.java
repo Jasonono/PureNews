@@ -9,8 +9,8 @@ import com.xiarh.purenews.R;
 import com.xiarh.purenews.base.BaseActivity;
 import com.xiarh.purenews.ui.center.PersonCenterFragment;
 import com.xiarh.purenews.ui.news.fragment.NewsHomeFragment;
-import com.xiarh.purenews.ui.picture.PictureFragment;
-import com.xiarh.purenews.ui.video.VideoFragment;
+import com.xiarh.purenews.ui.picture.PictureHomeFragment;
+import com.xiarh.purenews.ui.video.fragment.VideoHomeFragment;
 
 import butterknife.BindView;
 
@@ -20,8 +20,8 @@ public class MainUI extends BaseActivity {
     AHBottomNavigation mBottomNavigation;
 
     private NewsHomeFragment mNewsHomeFragment;
-    private VideoFragment mVideoFragment;
-    private PictureFragment mPictureFragment;
+    private VideoHomeFragment mVideoHomeFragment;
+    private PictureHomeFragment mPictureHomeFragment;
     private PersonCenterFragment mCenterFragment;
 
     @Override
@@ -83,19 +83,19 @@ public class MainUI extends BaseActivity {
                 }
                 break;
             case 1:
-                if (null != mVideoFragment) {
-                    ft.show(mVideoFragment);
+                if (null != mVideoHomeFragment) {
+                    ft.show(mVideoHomeFragment);
                 } else {
-                    mVideoFragment = new VideoFragment();
-                    ft.add(R.id.content, mVideoFragment, "视频");
+                    mVideoHomeFragment = new VideoHomeFragment();
+                    ft.add(R.id.content, mVideoHomeFragment, "视频");
                 }
                 break;
             case 2:
-                if (null != mPictureFragment) {
-                    ft.show(mPictureFragment);
+                if (null != mPictureHomeFragment) {
+                    ft.show(mPictureHomeFragment);
                 } else {
-                    mPictureFragment = new PictureFragment();
-                    ft.add(R.id.content, mPictureFragment, "图片");
+                    mPictureHomeFragment = new PictureHomeFragment();
+                    ft.add(R.id.content, mPictureHomeFragment, "图片");
                 }
                 break;
 
@@ -119,10 +119,10 @@ public class MainUI extends BaseActivity {
     private void hideFragments(FragmentTransaction ft) {
         if (null != mNewsHomeFragment)
             ft.hide(mNewsHomeFragment);
-        if (null != mVideoFragment)
-            ft.hide(mVideoFragment);
-        if (null != mPictureFragment)
-            ft.hide(mPictureFragment);
+        if (null != mVideoHomeFragment)
+            ft.hide(mVideoHomeFragment);
+        if (null != mPictureHomeFragment)
+            ft.hide(mPictureHomeFragment);
         if (null != mCenterFragment)
             ft.hide(mCenterFragment);
     }

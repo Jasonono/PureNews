@@ -75,6 +75,13 @@ public class Config {
         return url;
     }
 
+    /**
+     * 获取视频网址
+     *
+     * @param id
+     * @param index
+     * @return
+     */
     public static String getVideoUrl(String id, int index) {
         return Config.VIDEO_URL + id + Config.VIDEO_CENTER_URL + index + Config.VIDEO_END_URL;
     }

@@ -33,7 +33,7 @@ public abstract class AbsListFragment<T> extends BaseFragment implements SwipeRe
 
     protected int mIndex = 0;
 
-    protected int mDelayMillis = 500;
+    protected int mDelayMillis = 1000;
 
     protected abstract AbsListAdapter<T> getAdapter();
 
@@ -129,5 +129,4 @@ public abstract class AbsListFragment<T> extends BaseFragment implements SwipeRe
     public static final int LOADSUCCESS = 0001;//加载成功
 
     public static final int LOADNOMORE = 0002;//没有更多数据
-
 }

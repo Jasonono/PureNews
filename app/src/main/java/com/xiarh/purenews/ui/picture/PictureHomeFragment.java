@@ -8,7 +8,7 @@ import com.xiarh.purenews.base.BaseFragment;
  * Created by xiarh on 2017/5/22.
  */
 
-public class PictureFragment extends BaseFragment {
+public class PictureHomeFragment extends BaseFragment {
     @Override
     protected int getLayoutId() {
         return R.layout.frg_picture;
