@@ -9,7 +9,7 @@ import com.xiarh.purenews.R;
 import com.xiarh.purenews.base.BaseActivity;
 import com.xiarh.purenews.ui.center.PersonCenterFragment;
 import com.xiarh.purenews.ui.news.fragment.NewsHomeFragment;
-import com.xiarh.purenews.ui.picture.PictureHomeFragment;
+import com.xiarh.purenews.ui.picture.fragment.PictureHomeFragment;
 import com.xiarh.purenews.ui.video.fragment.VideoHomeFragment;
 
 import butterknife.BindView;

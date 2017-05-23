@@ -6,10 +6,10 @@ package com.xiarh.purenews.config;
 
 public class Config {
 
-    public static int PAGE_SIZE = 10;
+    public static int PAGE_SIZE = 20;
 
     /**
-     * http://c.m.163.com/nc/article/headline/T1348647909107/0-20.html
+     * 新闻 http://c.m.163.com/nc/article/headline/T1348647909107/0-20.html
      */
     public static final String NEWS_URL = "http://c.m.163.com/nc/article/";
 
@@ -46,14 +46,31 @@ public class Config {
 
     public static final String VIDEO_END_URL = "-" + PAGE_SIZE + ".html";
 
-    // 热点视频
-    public static final String VIDEO_HOT_ID = "V9LG4B3A0";
+    // 精品视频
+    public static final String VIDEO_CHOICE_ID = "00850FRB";
     // 娱乐视频
     public static final String VIDEO_ENTERTAINMENT_ID = "V9LG4CHOR";
     // 搞笑视频
     public static final String VIDEO_FUN_ID = "V9LG4E6VR";
-    // 精品视频
-    public static final String VIDEO_CHOICE_ID = "00850FRB";
+    // 热点视频
+    public static final String VIDEO_HOT_ID = "V9LG4B3A0";
+
+
+    /**
+     * 图片 http://image.baidu.com/data/imgs?col=%E7%BE%8E%E5%A5%B3&tag=%E5%85%A8%E9%83%A8&pn=10&rn=10&from=1
+     */
+    public static final String PICTURE_URL = "http://image.baidu.com/data/imgs?col=";
+
+    public static final String PICTURE_CENTER_URL = "&tag=%E5%85%A8%E9%83%A8&pn=";
+
+    public static final String PICTURE_END_URL = "&rn=" + PAGE_SIZE + "&from=1";
+
+    // 美女
+    public static final String BEAUTY_ID = "%E7%BE%8E%E5%A5%B3";
+    //动漫
+    public static final String COMIC_ID = "%E5%8A%A8%E6%BC%AB";
+    //摄影
+    public static final String PHOTPGRAPHY_ID = "%E6%91%84%E5%BD%B1";
 
     /**
      * 获取新闻网址
@@ -84,5 +101,16 @@ public class Config {
      */
     public static String getVideoUrl(String id, int index) {
         return Config.VIDEO_URL + id + Config.VIDEO_CENTER_URL + index + Config.VIDEO_END_URL;
+    }
+
+    /**
+     * 获取图片网址
+     *
+     * @param id
+     * @param index
+     * @return
+     */
+    public static String getPictureUrl(String id, int index) {
+        return Config.PICTURE_URL + id + Config.PICTURE_CENTER_URL + index + Config.PICTURE_END_URL;
     }
 }

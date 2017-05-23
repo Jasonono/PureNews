@@ -2,7 +2,6 @@ package com.xiarh.purenews.ui.video.fragment;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.util.Log;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
@@ -16,7 +15,6 @@ import com.xiarh.purenews.base.AbsListAdapter;
 import com.xiarh.purenews.base.AbsListFragment;
 import com.xiarh.purenews.bean.VideoBean;
 import com.xiarh.purenews.config.Config;
-import com.xiarh.purenews.ui.news.fragment.NewsFragment;
 import com.xiarh.purenews.ui.video.adapter.VideoAdapter;
 
 import java.util.ArrayList;
@@ -72,16 +70,20 @@ public class VideoFragment extends AbsListFragment<VideoBean> {
                             JsonParser parser = new JsonParser();
                             JsonObject jsonObj = parser.parse(s).getAsJsonObject();
                             JsonElement jsonElement = jsonObj.get(id);
-                            if (jsonElement.isJsonNull()) {
+                            if (null == jsonElement) {
                                 onDataSuccessReceived(null, LOADNOMORE);
                             } else {
                                 JsonArray jsonArray = jsonElement.getAsJsonArray();
-                                for (int i = 1; i < jsonArray.size(); i++) {
-                                    JsonObject jo = jsonArray.get(i).getAsJsonObject();
-                                    VideoBean bean = gson.fromJson(jo, VideoBean.class);
-                                    beans.add(bean);
+                                if (jsonArray.size() == 0) {
+                                    onDataSuccessReceived(null, LOADNOMORE);
+                                } else {
+                                    for (int i = 1; i < jsonArray.size(); i++) {
+                                        JsonObject jo = jsonArray.get(i).getAsJsonObject();
+                                        VideoBean bean = gson.fromJson(jo, VideoBean.class);
+                                        beans.add(bean);
+                                    }
+                                    onDataSuccessReceived(beans, LOADSUCCESS);
                                 }
-                                onDataSuccessReceived(beans, LOADSUCCESS);
                             }
                         } catch (Exception e) {
                             Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_SHORT).show();
@@ -94,5 +96,11 @@ public class VideoFragment extends AbsListFragment<VideoBean> {
                         onDataSuccessReceived(null, LOADFAIL);
                     }
                 });
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        OkGo.getInstance().cancelAll();
     }
 }

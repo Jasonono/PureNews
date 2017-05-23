@@ -21,7 +21,8 @@ public class VideoAdapter extends AbsListAdapter<VideoBean> {
     @Override
     protected void convert(BaseViewHolder baseViewHolder, VideoBean item) {
         baseViewHolder.setText(R.id.tv_video_source, item.getTopicName());
-        baseViewHolder.setText(R.id.tv_video_playcount, item.getPlayCount() + "");
-        ImageLoader.getInstance().with(mContext, item.getTopicImg(), (ImageView) baseViewHolder.getView(R.id.img_video_logo));
+        baseViewHolder.setText(R.id.tv_video_playcount, item.getPlayCount() + "次播放");
+        ImageLoader.getInstance().with(mContext, item.getCover(), (ImageView) baseViewHolder.getView(R.id.img_topic));
+        ImageLoader.getInstance().withRound(mContext, item.getTopicImg(), (ImageView) baseViewHolder.getView(R.id.img_video_logo));
     }
 }

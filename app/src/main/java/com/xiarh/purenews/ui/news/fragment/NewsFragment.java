@@ -70,16 +70,20 @@ public class NewsFragment extends AbsListFragment<NewsBean> {
                             JsonParser parser = new JsonParser();
                             JsonObject jsonObj = parser.parse(s).getAsJsonObject();
                             JsonElement jsonElement = jsonObj.get(id);
-                            if (jsonElement == null) {
+                            if (null == jsonElement) {
                                 onDataSuccessReceived(null, LOADNOMORE);
                             } else {
                                 JsonArray jsonArray = jsonElement.getAsJsonArray();
-                                for (int i = 1; i < jsonArray.size(); i++) {
-                                    JsonObject jo = jsonArray.get(i).getAsJsonObject();
-                                    NewsBean bean = gson.fromJson(jo, NewsBean.class);
-                                    beans.add(bean);
+                                if (jsonArray.size() == 0) {
+                                    onDataSuccessReceived(null, LOADNOMORE);
+                                } else {
+                                    for (int i = 1; i < jsonArray.size(); i++) {
+                                        JsonObject jo = jsonArray.get(i).getAsJsonObject();
+                                        NewsBean bean = gson.fromJson(jo, NewsBean.class);
+                                        beans.add(bean);
+                                    }
+                                    onDataSuccessReceived(beans, LOADSUCCESS);
                                 }
-                                onDataSuccessReceived(beans, LOADSUCCESS);
                             }
                         } catch (Exception e) {
                             Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_SHORT).show();
@@ -92,5 +96,11 @@ public class NewsFragment extends AbsListFragment<NewsBean> {
                         onDataSuccessReceived(null, LOADFAIL);
                     }
                 });
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        OkGo.getInstance().cancelAll();
     }
 }

@@ -1,4 +1,4 @@
-package com.xiarh.purenews.ui.video.fragment;
+package com.xiarh.purenews.ui.picture.fragment;
 
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -15,10 +15,11 @@ import java.util.List;
 import butterknife.BindView;
 
 /**
+ * 图片
  * Created by xiarh on 2017/5/22.
  */
 
-public class VideoHomeFragment extends BaseFragment {
+public class PictureHomeFragment extends BaseFragment {
 
     @BindView(R.id.tablayout)
     TabLayout mTabLayout;
@@ -27,20 +28,20 @@ public class VideoHomeFragment extends BaseFragment {
 
     private List<Fragment> mFragments = new ArrayList<>();
 
-    private String[] mTitles = {"精品视频", "搞笑视频", "热点视频"};
+    private String[] mTitles = {"美女", "动漫", "摄影"};
 
     private TitleAdapter mAdapter;
 
     @Override
     protected int getLayoutId() {
-        return R.layout.frg_video;
+        return R.layout.frg_picture;
     }
 
     @Override
     protected void init() {
-        mFragments.add(VideoFragment.newInstance(Config.VIDEO_CHOICE_ID));
-        mFragments.add(VideoFragment.newInstance(Config.VIDEO_FUN_ID));
-        mFragments.add(VideoFragment.newInstance(Config.VIDEO_HOT_ID));
+        mFragments.add(PictureFragment.newInstance(Config.BEAUTY_ID));
+        mFragments.add(PictureFragment.newInstance(Config.COMIC_ID));
+        mFragments.add(PictureFragment.newInstance(Config.PHOTPGRAPHY_ID));
         mAdapter = new TitleAdapter(getChildFragmentManager(), mFragments, mTitles);
         mViewPager.setAdapter(mAdapter);
         mTabLayout.setupWithViewPager(mViewPager);

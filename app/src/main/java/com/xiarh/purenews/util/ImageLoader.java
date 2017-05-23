@@ -5,6 +5,7 @@ import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.xiarh.purenews.R;
 
 /**
  * 图片加载工具类
@@ -12,6 +13,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
  */
 
 public class ImageLoader {
+
     private static ImageLoader mInstance;
 
     public static ImageLoader getInstance() {
@@ -30,6 +32,15 @@ public class ImageLoader {
         Glide.with(context)
                 .load(imgUrl)
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .into(imageView);
+    }
+
+    public void withRound(Context context, Object imgUrl, ImageView imageView) {
+        Glide.with(context)
+                .load(imgUrl)
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .transform(new GlideCircleTransform(context))
+                .placeholder(R.drawable.icon_news)
                 .into(imageView);
     }
 }
