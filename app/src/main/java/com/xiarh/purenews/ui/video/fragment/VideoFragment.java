@@ -16,6 +16,7 @@ import com.xiarh.purenews.base.AbsListFragment;
 import com.xiarh.purenews.bean.VideoBean;
 import com.xiarh.purenews.config.Config;
 import com.xiarh.purenews.ui.video.adapter.VideoAdapter;
+import com.xiarh.purenews.util.SnackBarUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -93,6 +94,7 @@ public class VideoFragment extends AbsListFragment<VideoBean> {
                     @Override
                     public void onError(Call call, Response response, Exception e) {
                         super.onError(call, response, e);
+                        SnackBarUtil.showSnackBar(e.getMessage(), mSwipeRefreshLayout, getActivity());
                         onDataSuccessReceived(null, LOADFAIL);
                     }
                 });

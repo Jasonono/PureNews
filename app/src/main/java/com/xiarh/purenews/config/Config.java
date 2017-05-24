@@ -55,22 +55,10 @@ public class Config {
     // 热点视频
     public static final String VIDEO_HOT_ID = "V9LG4B3A0";
 
+    // 天气预报
+    public static final String WEATHER_URL = "https://free-api.heweather.com/v5/now?city=";
 
-    /**
-     * 图片 http://image.baidu.com/data/imgs?col=%E7%BE%8E%E5%A5%B3&tag=%E5%85%A8%E9%83%A8&pn=10&rn=10&from=1
-     */
-    public static final String PICTURE_URL = "http://image.baidu.com/data/imgs?col=";
-
-    public static final String PICTURE_CENTER_URL = "&tag=%E5%85%A8%E9%83%A8&pn=";
-
-    public static final String PICTURE_END_URL = "&rn=" + PAGE_SIZE + "&from=1";
-
-    // 美女
-    public static final String BEAUTY_ID = "%E7%BE%8E%E5%A5%B3";
-    //动漫
-    public static final String COMIC_ID = "%E5%8A%A8%E6%BC%AB";
-    //摄影
-    public static final String PHOTPGRAPHY_ID = "%E6%91%84%E5%BD%B1";
+    public static final String WEATHER_END_URL = "&key=33ebf4d7998a4548942adcad5582e503";
 
     /**
      * 获取新闻网址
@@ -104,13 +92,12 @@ public class Config {
     }
 
     /**
-     * 获取图片网址
+     * 获取天气地址
      *
-     * @param id
-     * @param index
+     * @param city
      * @return
      */
-    public static String getPictureUrl(String id, int index) {
-        return Config.PICTURE_URL + id + Config.PICTURE_CENTER_URL + index + Config.PICTURE_END_URL;
+    public static String getWeatherUrl(String city) {
+        return WEATHER_URL + city + WEATHER_END_URL;
     }
 }

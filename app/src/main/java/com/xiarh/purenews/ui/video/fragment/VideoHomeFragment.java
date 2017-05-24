@@ -15,6 +15,7 @@ import java.util.List;
 import butterknife.BindView;
 
 /**
+ * 视频主页
  * Created by xiarh on 2017/5/22.
  */
 

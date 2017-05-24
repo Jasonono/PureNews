@@ -9,8 +9,8 @@ import com.xiarh.purenews.R;
 import com.xiarh.purenews.base.BaseActivity;
 import com.xiarh.purenews.ui.center.PersonCenterFragment;
 import com.xiarh.purenews.ui.news.fragment.NewsHomeFragment;
-import com.xiarh.purenews.ui.picture.fragment.PictureHomeFragment;
 import com.xiarh.purenews.ui.video.fragment.VideoHomeFragment;
+import com.xiarh.purenews.ui.weather.WeatherFragment;
 
 import butterknife.BindView;
 
@@ -21,7 +21,7 @@ public class MainUI extends BaseActivity {
 
     private NewsHomeFragment mNewsHomeFragment;
     private VideoHomeFragment mVideoHomeFragment;
-    private PictureHomeFragment mPictureHomeFragment;
+    private WeatherFragment mWeatherFragment;
     private PersonCenterFragment mCenterFragment;
 
     @Override
@@ -33,7 +33,7 @@ public class MainUI extends BaseActivity {
     protected void init() {
         AHBottomNavigationItem item1 = new AHBottomNavigationItem(R.string.news, R.drawable.ic_new, R.color.black);
         AHBottomNavigationItem item2 = new AHBottomNavigationItem(R.string.video, R.drawable.ic_video, R.color.black);
-        AHBottomNavigationItem item3 = new AHBottomNavigationItem(R.string.picture, R.drawable.ic_picture, R.color.black);
+        AHBottomNavigationItem item3 = new AHBottomNavigationItem(R.string.picture, R.drawable.ic_weather, R.color.black);
         AHBottomNavigationItem item4 = new AHBottomNavigationItem(R.string.person_center, R.drawable.ic_person_center, R.color.black);
         mBottomNavigation.addItem(item1);
         mBottomNavigation.addItem(item2);
@@ -91,11 +91,11 @@ public class MainUI extends BaseActivity {
                 }
                 break;
             case 2:
-                if (null != mPictureHomeFragment) {
-                    ft.show(mPictureHomeFragment);
+                if (null != mWeatherFragment) {
+                    ft.show(mWeatherFragment);
                 } else {
-                    mPictureHomeFragment = new PictureHomeFragment();
-                    ft.add(R.id.content, mPictureHomeFragment, "图片");
+                    mWeatherFragment = new WeatherFragment();
+                    ft.add(R.id.content, mWeatherFragment, "天气");
                 }
                 break;
 
@@ -121,8 +121,8 @@ public class MainUI extends BaseActivity {
             ft.hide(mNewsHomeFragment);
         if (null != mVideoHomeFragment)
             ft.hide(mVideoHomeFragment);
-        if (null != mPictureHomeFragment)
-            ft.hide(mPictureHomeFragment);
+        if (null != mWeatherFragment)
+            ft.hide(mWeatherFragment);
         if (null != mCenterFragment)
             ft.hide(mCenterFragment);
     }

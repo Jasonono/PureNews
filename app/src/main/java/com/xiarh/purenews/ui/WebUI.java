@@ -1,12 +1,16 @@
 package com.xiarh.purenews.ui;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.net.http.SslError;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.Toolbar;
+import android.text.ClipboardManager;
 import android.view.KeyEvent;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.webkit.GeolocationPermissions;
 import android.webkit.SslErrorHandler;
@@ -16,9 +20,11 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.xiarh.purenews.R;
 import com.xiarh.purenews.base.BaseActivity;
+import com.xiarh.purenews.util.SnackBarUtil;
 
 import java.lang.reflect.Method;
 
@@ -140,7 +146,7 @@ public class WebUI extends BaseActivity implements SwipeRefreshLayout.OnRefreshL
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_main, menu);
+        getMenuInflater().inflate(R.menu.menu_web, menu);
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -172,5 +178,22 @@ public class WebUI extends BaseActivity implements SwipeRefreshLayout.OnRefreshL
                 e.printStackTrace();
             }
         }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.item_copy:
+                ClipboardManager cm = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+                cm.setText(url);
+                SnackBarUtil.showSnackBar(R.string.copy_msg, webView, this);
+                break;
+            case R.id.item_browser:
+                Uri uri = Uri.parse(url);
+                Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+                startActivity(intent);
+                break;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

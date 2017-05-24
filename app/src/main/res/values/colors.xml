@@ -8,4 +8,5 @@
     <color name="textcolor">#737373</color>
     <!-- 透明色 -->
     <color name="transparent">#00FFFFFF</color>
+    <color name="colorLine">#f1f1f1</color>
 </resources>

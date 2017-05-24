@@ -16,6 +16,7 @@ import com.xiarh.purenews.base.AbsListFragment;
 import com.xiarh.purenews.bean.NewsBean;
 import com.xiarh.purenews.config.Config;
 import com.xiarh.purenews.ui.news.adapter.NewsAdapter;
+import com.xiarh.purenews.util.SnackBarUtil;
 import com.xiarh.purenews.util.WebUtil;
 
 import java.util.ArrayList;
@@ -25,6 +26,7 @@ import okhttp3.Call;
 import okhttp3.Response;
 
 /**
+ * 新闻
  * Created by xiarh on 2017/5/9.
  */
 
@@ -93,6 +95,7 @@ public class NewsFragment extends AbsListFragment<NewsBean> {
                     @Override
                     public void onError(Call call, Response response, Exception e) {
                         super.onError(call, response, e);
+                        SnackBarUtil.showSnackBar(e.getMessage(), mSwipeRefreshLayout, getActivity());
                         onDataSuccessReceived(null, LOADFAIL);
                     }
                 });
