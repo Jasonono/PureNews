@@ -19,6 +19,7 @@ import com.xiarh.purenews.bean.NewsDetailBean;
 import com.xiarh.purenews.config.Config;
 import com.xiarh.purenews.util.ListUtils;
 import com.xiarh.purenews.util.SnackBarUtil;
+import com.zzhoujay.richtext.RichText;
 
 import java.io.InputStream;
 import java.net.URL;
@@ -96,25 +97,10 @@ public class NewsDetailActivity extends BaseActivity {
 
     public void setDetail(NewsDetailBean bean) {
         if (handleRichTextWithImg(bean)) {
-            tvDetail.setText(Html.fromHtml(bean.getBody(), imageGetter, null));
+            RichText.from(bean.getBody())
+                    .into(tvDetail);
         }
     }
-
-    Html.ImageGetter imageGetter = new Html.ImageGetter() {
-        Drawable drawable = null;
-
-        @Override
-        public Drawable getDrawable(String source) {
-            //加载中提示图片
-            drawable = getResources().getDrawable(R.drawable.icon_news);
-            try {
-                drawable.setBounds(0, 0, drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight());
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            return drawable;
-        }
-    };
 
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_web, menu);
