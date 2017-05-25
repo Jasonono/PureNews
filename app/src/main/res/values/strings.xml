@@ -11,11 +11,13 @@
     <string name="advise">意见反馈</string>
     <string name="downloadurl">下载地址</string>
     <string name="share_app">应用分享</string>
-    <string name="about1">• RxJava - github.com/ReactiveX/RxJava</string>
-    <string name="about2">• RxJava - github.com/ReactiveX/RxAndroid</string>
-    <string name="about3">• RxJava - github.com/square/retrofit</string>
-    <string name="about4">• 和风天气提供天气数据</string>
-    <string name="about5">• 高德定位提供定位服务</string>
+    <string name="about1">• OkGo - github.com/jeasonlzy/okhttp-OkGo</string>
+    <string name="about2">• Glide - github.com/bumptech/glide</string>
+    <string name="about3">• ButterKnife - github.com/JakeWharton/butterknife</string>
+    <string name="about4">• BRVAH - github.com/CymChad/BaseRecyclerViewAdapterHelper</string>
+    <string name="about5">• 和风天气提供天气数据</string>
+    <string name="about6">• 高德定位提供定位服务</string>
     <string name="locating">定位中...</string>
     <string name="copy_msg">已经复制链接地址到剪切板!</string>
+    <string name="loadfail">加载失败</string>
 </resources>

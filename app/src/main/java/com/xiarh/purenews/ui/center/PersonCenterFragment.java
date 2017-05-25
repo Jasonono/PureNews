@@ -2,21 +2,16 @@ package com.xiarh.purenews.ui.center;
 
 import android.content.Intent;
 import android.net.Uri;
-import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.xiarh.purenews.R;
 import com.xiarh.purenews.base.BaseFragment;
 import com.xiarh.purenews.util.ShareUtil;
 import com.xiarh.purenews.util.VersionUtil;
+import com.xiarh.purenews.util.WebUtil;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
-import butterknife.Unbinder;
 
 /**
  * 我的
@@ -25,8 +20,6 @@ import butterknife.Unbinder;
 
 public class PersonCenterFragment extends BaseFragment {
 
-    @BindView(R.id.tv_title)
-    TextView tvTitle;
     @BindView(R.id.tv_version)
     TextView tvVersion;
 
@@ -37,17 +30,12 @@ public class PersonCenterFragment extends BaseFragment {
 
     @Override
     protected void init() {
-        tvTitle.setText(R.string.person_center);
         tvVersion.setText(getResources().getString(R.string.version) + VersionUtil.getVersionName(getActivity()));
     }
 
     @OnClick(R.id.tv_github)
     public void onTvGithubClicked() {
-        Uri uri = Uri.parse("https://github.com/xiarunhao123/PureNews");
-        Intent intent = new Intent();
-        intent.setAction(Intent.ACTION_VIEW);
-        intent.setData(uri);
-        startActivity(intent);
+        WebUtil.openWeb(getActivity(), "项目主页", "https://github.com/xiarunhao123/PureNews");
     }
 
     @OnClick(R.id.tv_email)

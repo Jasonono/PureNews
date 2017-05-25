@@ -78,6 +78,7 @@ public abstract class AbsListFragment<T> extends BaseFragment implements SwipeRe
                 }
             }
         });
+        mIndex = 0;
         getData(mID, mIndex);
     }
 

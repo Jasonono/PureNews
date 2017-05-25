@@ -38,6 +38,13 @@ public class Config {
     public static final String MOVIE_ID = "T1348648650048";
 
     /**
+     * 新闻详情 http://c.m.163.com/nc/article/CL7OKMIH000189FH/full.html
+     */
+    public static final String NEWS_DETAIL_URL = "http://c.m.163.com/nc/article/";
+
+    public static final String NEWS_DETAIL_END_URL = "/full.html";
+
+    /**
      * 视频 http://c.3g.163.com/nc/video/list/V9LG4CHOR/n/10-10.html
      */
     public static final String VIDEO_URL = "http://c.m.163.com/nc/video/list/";
@@ -78,6 +85,16 @@ public class Config {
                 break;
         }
         return url;
+    }
+
+    /**
+     * 获取新闻详情地址
+     *
+     * @param postId
+     * @return
+     */
+    public static String getNewsDetailUrl(String postId) {
+        return Config.NEWS_DETAIL_URL + postId + Config.NEWS_DETAIL_END_URL;
     }
 
     /**

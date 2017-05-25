@@ -20,7 +20,6 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.xiarh.purenews.R;
 import com.xiarh.purenews.base.BaseActivity;
@@ -96,7 +95,6 @@ public class WebUI extends BaseActivity implements SwipeRefreshLayout.OnRefreshL
 
             @Override
             public void onPageFinished(WebView view, String url) {
-                tvTitle.setText(view.getTitle());
                 swipeRefreshLayout.setRefreshing(false);
                 super.onPageFinished(view, url);
             }

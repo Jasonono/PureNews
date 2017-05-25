@@ -1,5 +1,6 @@
 package com.xiarh.purenews.ui.news.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.widget.Toast;
@@ -15,6 +16,7 @@ import com.xiarh.purenews.base.AbsListAdapter;
 import com.xiarh.purenews.base.AbsListFragment;
 import com.xiarh.purenews.bean.NewsBean;
 import com.xiarh.purenews.config.Config;
+import com.xiarh.purenews.ui.news.activity.NewsDetailActivity;
 import com.xiarh.purenews.ui.news.adapter.NewsAdapter;
 import com.xiarh.purenews.util.SnackBarUtil;
 import com.xiarh.purenews.util.WebUtil;
@@ -56,7 +58,11 @@ public class NewsFragment extends AbsListFragment<NewsBean> {
 
     @Override
     protected void onClick(NewsBean bean, int position) {
-        WebUtil.openWeb(getActivity(), bean.getTitle(), bean.getUrl_3w());
+        Intent intent = new Intent(getActivity(), NewsDetailActivity.class);
+        intent.putExtra("postid", bean.getPostid());
+        intent.putExtra("title", bean.getTitle());
+        intent.putExtra("imgsrc", bean.getImgsrc());
+        getActivity().startActivity(intent);
     }
 
     @Override

@@ -11,4 +11,5 @@
     <dimen name="size_18sp">18sp</dimen>
     <dimen name="size_20sp">20sp</dimen>
     <dimen name="tv_margin">10dp</dimen>
+    <dimen name="detail_backdrop_height">256dp</dimen>
 </resources>
