@@ -10,6 +10,7 @@ import android.view.View;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.xiarh.purenews.R;
 import com.xiarh.purenews.animation.CustomAnimation;
+import com.xiarh.purenews.config.Config;
 
 import java.util.List;
 
@@ -133,7 +134,7 @@ public abstract class AbsListFragment<T> extends BaseFragment implements SwipeRe
                     mAdapter.loadMoreComplete();
                     mSwipeRefreshLayout.setEnabled(true);
                 }
-                mIndex = mIndex + 10;
+                mIndex = mIndex + 20;
                 break;
             case LOADNOMORE:
                 mAdapter.loadMoreEnd();

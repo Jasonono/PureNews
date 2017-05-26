@@ -173,7 +173,7 @@ public class NewsDetailActivity extends BaseActivity {
             newsDetailBean.setBody(body);
             isSuccess = true;
         }
-        Log.i("123456", newsDetailBean.getBody());
+        Log.i("xrh123", newsDetailBean.getBody());
         return isSuccess;
     }
 

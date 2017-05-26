@@ -88,7 +88,9 @@ public class NewsFragment extends AbsListFragment<NewsBean> {
                                     for (int i = 1; i < jsonArray.size(); i++) {
                                         JsonObject jo = jsonArray.get(i).getAsJsonObject();
                                         NewsBean bean = gson.fromJson(jo, NewsBean.class);
-                                        beans.add(bean);
+                                        if (null != bean.getUrl_3w()) {
+                                            beans.add(bean);
+                                        }
                                     }
                                     onDataSuccessReceived(beans, LOADSUCCESS);
                                 }
