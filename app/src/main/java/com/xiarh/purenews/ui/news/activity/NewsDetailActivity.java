@@ -1,10 +1,12 @@
 package com.xiarh.purenews.ui.news.activity;
 
-import android.graphics.drawable.Drawable;
+import android.content.Intent;
+import android.net.Uri;
 import android.support.v7.widget.Toolbar;
-import android.text.Html;
 import android.util.Log;
 import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
@@ -19,10 +21,10 @@ import com.xiarh.purenews.bean.NewsDetailBean;
 import com.xiarh.purenews.config.Config;
 import com.xiarh.purenews.util.ListUtils;
 import com.xiarh.purenews.util.SnackBarUtil;
+import com.xiarh.purenews.util.WebUtil;
 import com.zzhoujay.richtext.RichText;
 
-import java.io.InputStream;
-import java.net.URL;
+import java.lang.reflect.Method;
 
 import butterknife.BindView;
 import okhttp3.Call;
@@ -98,13 +100,59 @@ public class NewsDetailActivity extends BaseActivity {
     public void setDetail(NewsDetailBean bean) {
         if (handleRichTextWithImg(bean)) {
             RichText.from(bean.getBody())
+                    .placeHolder(R.drawable.ic_default)
                     .into(tvDetail);
         }
     }
 
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_web, menu);
+        getMenuInflater().inflate(R.menu.menu_detail, menu);
         return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.item_webview:
+                WebUtil.openWeb(NewsDetailActivity.this, bean.getTitle(), bean.getShareLink());
+                break;
+            case R.id.item_browser:
+                Uri uri = Uri.parse(bean.getShareLink());
+                Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+                startActivity(intent);
+                break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected boolean onPrepareOptionsPanel(View view, Menu menu) {
+        setIconEnable(menu, true);//让在overflow中的menuitem的icon显示
+        return super.onPrepareOptionsPanel(view, menu);
+    }
+
+    /**
+     * 利用反射机制调用MenuBuilder中的setOptionIconsVisable（），
+     * 如果是集成自AppCompatActivity则不行,需要在onPreareOptionPanel（）中调用该方法
+     *
+     * @param menu   该menu实质为MenuBuilder，该类实现了Menu接口
+     * @param enable enable为true时，菜单添加图标有效，enable为false时无效。因为4.0系统之后默认无效
+     */
+    private void setIconEnable(Menu menu, boolean enable) {
+        if (menu != null) {
+            try {
+                Class clazz = menu.getClass();
+                if (clazz.getSimpleName().equals("MenuBuilder")) {
+                    Method m = clazz.getDeclaredMethod("setOptionalIconsVisible", Boolean.TYPE);
+                    m.setAccessible(true);
+                    //MenuBuilder实现Menu接口，创建菜单时，传进来的menu其实就是MenuBuilder对象(java的多态特征)
+                    m.invoke(menu, enable);
+                }
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     /**

@@ -18,7 +18,11 @@
             android:id="@+id/webview"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@+id/toolbar"></WebView>
+            android:layout_below="@+id/toolbar"
+            android:scrollbarSize="2dp"
+            android:scrollbarStyle="outsideOverlay"
+            android:scrollbarThumbVertical="@color/black"
+            android:scrollbars="vertical"></WebView>
 
     </android.support.v4.widget.SwipeRefreshLayout>
 
