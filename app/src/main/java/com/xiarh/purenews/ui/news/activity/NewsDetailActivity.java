@@ -98,11 +98,9 @@ public class NewsDetailActivity extends BaseActivity {
     }
 
     public void setDetail(NewsDetailBean bean) {
-        if (handleRichTextWithImg(bean)) {
-            RichText.from(bean.getBody())
-                    .placeHolder(R.drawable.ic_default)
-                    .into(tvDetail);
-        }
+        RichText.from(handleRichText(bean))
+                .placeHolder(R.drawable.ic_default)
+                .into(tvDetail);
     }
 
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -160,8 +158,8 @@ public class NewsDetailActivity extends BaseActivity {
      *
      * @param newsDetailBean 原始数据
      */
-    private Boolean handleRichTextWithImg(NewsDetailBean newsDetailBean) {
-        Boolean isSuccess = false;
+    private String handleRichText(NewsDetailBean newsDetailBean) {
+        String detailBody;
         if (!ListUtils.isEmpty(newsDetailBean.getImg())) {
             String body = newsDetailBean.getBody();
             for (NewsDetailBean.ImgBean imgEntity : newsDetailBean.getImg()) {
@@ -170,11 +168,11 @@ public class NewsDetailActivity extends BaseActivity {
                 String img = HTML_IMG_TEMPLATE.replace("http", src);
                 body = body.replaceAll(ref, img);
             }
-            newsDetailBean.setBody(body);
-            isSuccess = true;
+            detailBody = body;
+        } else {
+            detailBody = newsDetailBean.getBody();
         }
-        Log.i("xrh123", newsDetailBean.getBody());
-        return isSuccess;
+        return detailBody;
     }
 
     private static final String HTML_IMG_TEMPLATE = "<img src=\"http\" />";
