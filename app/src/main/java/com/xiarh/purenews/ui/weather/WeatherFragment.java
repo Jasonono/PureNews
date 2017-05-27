@@ -219,7 +219,7 @@ public class WeatherFragment extends BaseFragment implements AMapLocationListene
     private void setWeatherView(WeatherBean bean) {
         WeatherBean.HeWeather5Bean weather5Bean = bean.getHeWeather5().get(0);
         tvWeather.setText(weather5Bean.getNow().getTmp() + "°C");
-        tvCity.setText(weather5Bean.getBasic().getCity());
+        tvCity.setText(weather5Bean.getBasic().getCity() + "，" + weather5Bean.getNow().getCond().getTxt());
         tvAQI.setText("AQI " + weather5Bean.getAqi().getCity().getAqi() + "(" + weather5Bean.getAqi().getCity().getQlty() + ")");
         WeatherUtil.setWeatherIcon(weather5Bean.getNow().getCond().getCode(), imgWeather);
     }
