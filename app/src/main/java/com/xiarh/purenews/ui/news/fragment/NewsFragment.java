@@ -96,7 +96,7 @@ public class NewsFragment extends AbsListFragment<NewsBean> {
                                 }
                             }
                         } catch (Exception e) {
-                            Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_SHORT).show();
+                            SnackBarUtil.showSnackBar(e.getMessage(), mSwipeRefreshLayout, getActivity());
                         }
                     }
 

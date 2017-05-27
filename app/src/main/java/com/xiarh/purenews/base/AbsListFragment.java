@@ -144,7 +144,9 @@ public abstract class AbsListFragment<T> extends BaseFragment implements SwipeRe
 //                            }
 //                        }
 //                    }, mDelayMillis);
-                    mSwipeRefreshLayout.setRefreshing(false);
+                    if (null != mSwipeRefreshLayout) {
+                        mSwipeRefreshLayout.setRefreshing(false);
+                    }
                     mAdapter.setEnableLoadMore(true);
                 } else {
                     mAdapter.addData(tList);

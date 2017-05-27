@@ -90,7 +90,7 @@ public class VideoFragment extends AbsListFragment<VideoBean> {
                                 }
                             }
                         } catch (Exception e) {
-                            Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_SHORT).show();
+                            SnackBarUtil.showSnackBar(e.getMessage(), mSwipeRefreshLayout, getActivity());
                         }
                     }
 

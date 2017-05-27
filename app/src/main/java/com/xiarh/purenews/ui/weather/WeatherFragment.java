@@ -196,7 +196,7 @@ public class WeatherFragment extends BaseFragment implements AMapLocationListene
                     public void onSuccess(String s, Call call, Response response) {
                         Gson gson = new Gson();
                         WeatherBean bean = gson.fromJson(s, WeatherBean.class);
-                        tvWeather.setText(bean.getHeWeather5().get(0).getNow().getTmp());
+                        setWeatherView(bean);
                         if (null != mSwipeRefreshLayout) {
                             mSwipeRefreshLayout.setRefreshing(false);
                         }
@@ -206,8 +206,13 @@ public class WeatherFragment extends BaseFragment implements AMapLocationListene
                     @Override
                     public void onError(Call call, Response response, Exception e) {
                         super.onError(call, response, e);
+                        SnackBarUtil.showSnackBar(e.getMessage(), mSwipeRefreshLayout, getActivity());
                     }
                 });
+    }
+
+    private void setWeatherView(WeatherBean bean) {
+        tvWeather.setText(bean.getHeWeather5().get(0).getNow().getTmp());
     }
 
     @Override
