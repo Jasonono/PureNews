@@ -129,6 +129,9 @@ public abstract class AbsListFragment<T> extends BaseFragment implements SwipeRe
     protected final void onDataSuccessReceived(List<T> tList, int loadCode) {
         switch (loadCode) {
             case LOADFAIL:
+                if (null != mSwipeRefreshLayout) {
+                    mSwipeRefreshLayout.setRefreshing(false);
+                }
                 mAdapter.loadMoreFail();
                 mIndex = 0;
                 break;
@@ -156,6 +159,9 @@ public abstract class AbsListFragment<T> extends BaseFragment implements SwipeRe
                 mIndex = mIndex + 20;
                 break;
             case LOADNOMORE:
+                if (null != mSwipeRefreshLayout) {
+                    mSwipeRefreshLayout.setRefreshing(false);
+                }
                 mAdapter.loadMoreEnd();
                 mIndex = 0;
                 break;
