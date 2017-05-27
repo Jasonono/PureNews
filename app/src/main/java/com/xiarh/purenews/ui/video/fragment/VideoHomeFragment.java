@@ -28,7 +28,7 @@ public class VideoHomeFragment extends BaseFragment {
 
     private List<Fragment> mFragments = new ArrayList<>();
 
-    private String[] mTitles = {"精品视频", "搞笑视频", "热点视频"};
+    private String[] mTitles = {"精品视频", "娱乐视频", "搞笑视频", "热点视频"};
 
     private TitleAdapter mAdapter;
 
@@ -40,6 +40,7 @@ public class VideoHomeFragment extends BaseFragment {
     @Override
     protected void init() {
         mFragments.add(VideoFragment.newInstance(Config.VIDEO_CHOICE_ID));
+        mFragments.add(VideoFragment.newInstance(Config.VIDEO_ENTERTAINMENT_ID));
         mFragments.add(VideoFragment.newInstance(Config.VIDEO_FUN_ID));
         mFragments.add(VideoFragment.newInstance(Config.VIDEO_HOT_ID));
         mAdapter = new TitleAdapter(getChildFragmentManager(), mFragments, mTitles);

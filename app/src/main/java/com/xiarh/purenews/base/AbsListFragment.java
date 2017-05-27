@@ -71,6 +71,7 @@ public abstract class AbsListFragment<T> extends BaseFragment implements SwipeRe
         });
         mRecyclerView.setLayoutManager(getLayoutManager());
         mRecyclerView.setAdapter(mAdapter);
+        mRecyclerView.addOnAttachStateChangeListener(getChangeListener());
         mSwipeRefreshLayout.post(new Runnable() {
             @Override
             public void run() {
@@ -107,6 +108,20 @@ public abstract class AbsListFragment<T> extends BaseFragment implements SwipeRe
         return new LinearLayoutManager(getActivity());
     }
 
+    protected View.OnAttachStateChangeListener getChangeListener() {
+        return new View.OnAttachStateChangeListener() {
+            @Override
+            public void onViewAttachedToWindow(View v) {
+                
+            }
+
+            @Override
+            public void onViewDetachedFromWindow(View v) {
+
+            }
+        };
+    }
+
     /**
      * @param tList
      * @param loadCode
@@ -120,15 +135,17 @@ public abstract class AbsListFragment<T> extends BaseFragment implements SwipeRe
             case LOADSUCCESS:
                 if (mIndex == 0) {
                     mAdapter.setNewData(tList);
-                    new Handler().postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            if (null != mSwipeRefreshLayout) {
-                                mSwipeRefreshLayout.setRefreshing(false);
-                                mAdapter.setEnableLoadMore(true);
-                            }
-                        }
-                    }, mDelayMillis);
+//                    new Handler().postDelayed(new Runnable() {
+//                        @Override
+//                        public void run() {
+//                            if (null != mSwipeRefreshLayout) {
+//                                mSwipeRefreshLayout.setRefreshing(false);
+//                                mAdapter.setEnableLoadMore(true);
+//                            }
+//                        }
+//                    }, mDelayMillis);
+                    mSwipeRefreshLayout.setRefreshing(false);
+                    mAdapter.setEnableLoadMore(true);
                 } else {
                     mAdapter.addData(tList);
                     mAdapter.loadMoreComplete();

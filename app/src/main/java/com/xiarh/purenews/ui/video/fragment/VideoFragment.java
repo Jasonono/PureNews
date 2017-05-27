@@ -1,7 +1,9 @@
 package com.xiarh.purenews.ui.video.fragment;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.view.View;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
@@ -21,6 +23,7 @@ import com.xiarh.purenews.util.SnackBarUtil;
 import java.util.ArrayList;
 import java.util.List;
 
+import fm.jiecao.jcvideoplayer_lib.JCVideoPlayer;
 import okhttp3.Call;
 import okhttp3.Response;
 
@@ -98,6 +101,27 @@ public class VideoFragment extends AbsListFragment<VideoBean> {
                         onDataSuccessReceived(null, LOADFAIL);
                     }
                 });
+    }
+
+    @Override
+    protected View.OnAttachStateChangeListener getChangeListener() {
+        return new View.OnAttachStateChangeListener() {
+            @Override
+            public void onViewAttachedToWindow(View v) {
+
+            }
+
+            @Override
+            public void onViewDetachedFromWindow(View v) {
+                JCVideoPlayer.releaseAllVideos();
+            }
+        };
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        JCVideoPlayer.releaseAllVideos();
     }
 
     @Override

@@ -1,5 +1,6 @@
 package com.xiarh.purenews.config;
 
+import android.app.Activity;
 import android.app.Application;
 
 import com.lzy.okgo.OkGo;
@@ -7,6 +8,8 @@ import com.lzy.okgo.cache.CacheEntity;
 import com.lzy.okgo.cache.CacheMode;
 import com.lzy.okgo.cookie.store.PersistentCookieStore;
 
+import java.util.HashSet;
+import java.util.Set;
 import java.util.logging.Level;
 
 /**
@@ -14,6 +17,8 @@ import java.util.logging.Level;
  */
 
 public class BaseApplication extends Application {
+
+    private Set<Activity> allActivities;
 
     public static BaseApplication instance;
 
@@ -75,5 +80,33 @@ public class BaseApplication extends Application {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public void addActivity(Activity act) {
+        if (null == allActivities) {
+            allActivities = new HashSet<>();
+        }
+        allActivities.add(act);
+    }
+
+    public void removeActivity(Activity act) {
+        if (null != allActivities) {
+            allActivities.remove(act);
+        }
+    }
+
+    /**
+     * 退出应用，kill进程
+     */
+    public void exitApp() {
+        if (null != allActivities) {
+            synchronized (allActivities) {
+                for (Activity act : allActivities) {
+                    act.finish();
+                }
+            }
+        }
+        android.os.Process.killProcess(android.os.Process.myPid());
+        System.exit(0);
     }
 }

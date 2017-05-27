@@ -5,6 +5,8 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 
+import com.xiarh.purenews.config.BaseApplication;
+
 import butterknife.ButterKnife;
 
 /**
@@ -24,6 +26,13 @@ public abstract class BaseActivity extends AppCompatActivity {
         setContentView(getLayout());
         ButterKnife.bind(this);
         init();
+        BaseApplication.getInstance().addActivity(this);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        BaseApplication.getInstance().removeActivity(this);
     }
 
     @Override

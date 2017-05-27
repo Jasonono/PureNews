@@ -2,27 +2,40 @@ package com.xiarh.purenews.ui;
 
 import android.graphics.Color;
 import android.support.v4.app.FragmentTransaction;
+import android.view.KeyEvent;
+import android.widget.FrameLayout;
 
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigation;
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigationItem;
 import com.xiarh.purenews.R;
 import com.xiarh.purenews.base.BaseActivity;
+import com.xiarh.purenews.config.BaseApplication;
 import com.xiarh.purenews.ui.center.PersonCenterFragment;
 import com.xiarh.purenews.ui.news.fragment.NewsHomeFragment;
 import com.xiarh.purenews.ui.video.fragment.VideoHomeFragment;
 import com.xiarh.purenews.ui.weather.WeatherFragment;
+import com.xiarh.purenews.util.SnackBarUtil;
 
 import butterknife.BindView;
+import fm.jiecao.jcvideoplayer_lib.JCVideoPlayer;
 
 public class MainUI extends BaseActivity {
 
     @BindView(R.id.bottom_navigation)
     AHBottomNavigation mBottomNavigation;
+    @BindView(R.id.content)
+    FrameLayout mContent;
 
     private NewsHomeFragment mNewsHomeFragment;
+
     private VideoHomeFragment mVideoHomeFragment;
+
     private WeatherFragment mWeatherFragment;
+
     private PersonCenterFragment mCenterFragment;
+
+    //记录第一次点击的时间
+    private long clickTime = 0;
 
     @Override
     protected int getLayout() {
@@ -125,5 +138,30 @@ public class MainUI extends BaseActivity {
             ft.hide(mWeatherFragment);
         if (null != mCenterFragment)
             ft.hide(mCenterFragment);
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            // 监听全屏视频时返回键
+            if (JCVideoPlayer.backPress()) {
+                clickTime = 0;
+            } else {
+                if ((System.currentTimeMillis() - clickTime) > 2000) {
+                    SnackBarUtil.showSnackBar(R.string.exit, mContent, MainUI.this);
+                    clickTime = System.currentTimeMillis();
+                } else {
+                    BaseApplication.getInstance().exitApp();
+                }
+            }
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        JCVideoPlayer.releaseAllVideos();
     }
 }
