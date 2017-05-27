@@ -3,6 +3,7 @@ package com.xiarh.purenews.ui.weather;
 import android.Manifest;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.amap.api.location.AMapLocation;
@@ -17,6 +18,7 @@ import com.xiarh.purenews.base.BaseFragment;
 import com.xiarh.purenews.bean.WeatherBean;
 import com.xiarh.purenews.config.Config;
 import com.xiarh.purenews.util.SnackBarUtil;
+import com.xiarh.purenews.util.WeatherUtil;
 import com.yanzhenjie.permission.AndPermission;
 import com.yanzhenjie.permission.PermissionListener;
 
@@ -39,6 +41,10 @@ public class WeatherFragment extends BaseFragment implements AMapLocationListene
     TextView tvCity;
     @BindView(R.id.tv_weather)
     TextView tvWeather;
+    @BindView(R.id.img_weather)
+    ImageView imgWeather;
+    @BindView(R.id.tv_aqi)
+    TextView tvAQI;
 
     private String mCity;
 
@@ -144,8 +150,8 @@ public class WeatherFragment extends BaseFragment implements AMapLocationListene
         mLocationClient.setLocationOption(mLocationOption);
         //启动定位
         mLocationClient.startLocation();
-        //设置定位中
-        tvCity.setText(R.string.locating);
+        //显示定位中
+        SnackBarUtil.showSnackBar(R.string.locating, mSwipeRefreshLayout, getActivity());
     }
 
     /**
@@ -168,7 +174,6 @@ public class WeatherFragment extends BaseFragment implements AMapLocationListene
         if (aMapLocation != null) {
             if (aMapLocation.getErrorCode() == 0) {
                 mCity = aMapLocation.getCity();
-                tvCity.setText(mCity);
                 mSwipeRefreshLayout.setEnabled(true);
                 mSwipeRefreshLayout.post(new Runnable() {
                     @Override
@@ -212,7 +217,11 @@ public class WeatherFragment extends BaseFragment implements AMapLocationListene
     }
 
     private void setWeatherView(WeatherBean bean) {
-        tvWeather.setText(bean.getHeWeather5().get(0).getNow().getTmp());
+        WeatherBean.HeWeather5Bean weather5Bean = bean.getHeWeather5().get(0);
+        tvWeather.setText(weather5Bean.getNow().getTmp() + "°C");
+        tvCity.setText(weather5Bean.getBasic().getCity());
+        tvAQI.setText("AQI " + weather5Bean.getAqi().getCity().getAqi() + "(" + weather5Bean.getAqi().getCity().getQlty() + ")");
+        WeatherUtil.setWeatherIcon(weather5Bean.getNow().getCond().getCode(), imgWeather);
     }
 
     @Override

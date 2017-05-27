@@ -63,7 +63,7 @@ public class Config {
     public static final String VIDEO_HOT_ID = "V9LG4B3A0";
 
     // 天气预报
-    public static final String WEATHER_URL = "https://free-api.heweather.com/v5/now?city=";
+    public static final String WEATHER_URL = "https://free-api.heweather.com/v5/weather?city=";
 
     public static final String WEATHER_END_URL = "&key=33ebf4d7998a4548942adcad5582e503";
 
