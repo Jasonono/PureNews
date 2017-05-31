@@ -1,8 +1,10 @@
-package com.xiarh.purenews.ui.weather;
+package com.xiarh.purenews.ui.weather.fragment;
 
 import android.Manifest;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.util.Log;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -16,12 +18,15 @@ import com.lzy.okgo.callback.StringCallback;
 import com.xiarh.purenews.R;
 import com.xiarh.purenews.base.BaseFragment;
 import com.xiarh.purenews.bean.WeatherBean;
+import com.xiarh.purenews.bean.WeatherListBean;
 import com.xiarh.purenews.config.Config;
+import com.xiarh.purenews.ui.weather.adapter.WeatherAdapter;
 import com.xiarh.purenews.util.SnackBarUtil;
 import com.xiarh.purenews.util.WeatherUtil;
 import com.yanzhenjie.permission.AndPermission;
 import com.yanzhenjie.permission.PermissionListener;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -45,6 +50,12 @@ public class WeatherFragment extends BaseFragment implements AMapLocationListene
     ImageView imgWeather;
     @BindView(R.id.tv_aqi)
     TextView tvAQI;
+    @BindView(R.id.recyclerview_weather)
+    RecyclerView mRecyclerView;
+
+    private List<WeatherListBean> beanList = new ArrayList<>();
+
+    private WeatherAdapter mAdapter;
 
     private String mCity;
 
@@ -83,6 +94,9 @@ public class WeatherFragment extends BaseFragment implements AMapLocationListene
         mSwipeRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.black));
         mSwipeRefreshLayout.setOnRefreshListener(this);
         mSwipeRefreshLayout.setEnabled(false);
+        mAdapter = new WeatherAdapter();
+        mRecyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 2));
+        mRecyclerView.setAdapter(mAdapter);
     }
 
     @Override
@@ -222,11 +236,21 @@ public class WeatherFragment extends BaseFragment implements AMapLocationListene
         tvCity.setText(weather5Bean.getBasic().getCity() + "，" + weather5Bean.getNow().getCond().getTxt());
         tvAQI.setText("AQI " + weather5Bean.getAqi().getCity().getAqi() + "(" + weather5Bean.getAqi().getCity().getQlty() + ")");
         WeatherUtil.setWeatherIcon(weather5Bean.getNow().getCond().getCode(), imgWeather);
+        beanList.add(new WeatherListBean("日落", weather5Bean.getDaily_forecast().get(0).getAstro().getSs(), R.drawable.ic_sunset));
+        beanList.add(new WeatherListBean("舒适度", weather5Bean.getSuggestion().getComf().getBrf(), R.drawable.ic_comf));
+        beanList.add(new WeatherListBean("洗车指数", weather5Bean.getSuggestion().getCw().getBrf(), R.drawable.ic_cw));
+        beanList.add(new WeatherListBean("穿衣指数", weather5Bean.getSuggestion().getDrsg().getBrf(), R.drawable.ic_drsg));
+        beanList.add(new WeatherListBean("感冒指数", weather5Bean.getSuggestion().getFlu().getBrf(), R.drawable.ic_flu));
+        beanList.add(new WeatherListBean("运动指数", weather5Bean.getSuggestion().getSport().getBrf(), R.drawable.ic_sport));
+        beanList.add(new WeatherListBean("旅游指数", weather5Bean.getSuggestion().getTrav().getBrf(), R.drawable.ic_trav));
+        beanList.add(new WeatherListBean("紫外线", weather5Bean.getSuggestion().getUv().getBrf(), R.drawable.ic_uv));
+        mAdapter.setNewData(beanList);
     }
 
     @Override
     public void onRefresh() {
         if (!mCity.isEmpty()) {
+            beanList.clear();
             getWeatherData(mCity);
         }
     }

@@ -2,7 +2,7 @@
     <string name="app_name">PureNews</string>
     <string name="news">新闻</string>
     <string name="video">视频</string>
-    <string name="picture">图片</string>
+    <string name="weather">天气</string>
     <string name="person_center">我的</string>
     <string name="summary">概述</string>
     <string name="thanks">感谢</string>

@@ -13,7 +13,7 @@ import com.xiarh.purenews.config.BaseApplication;
 import com.xiarh.purenews.ui.center.PersonCenterFragment;
 import com.xiarh.purenews.ui.news.fragment.NewsHomeFragment;
 import com.xiarh.purenews.ui.video.fragment.VideoHomeFragment;
-import com.xiarh.purenews.ui.weather.WeatherFragment;
+import com.xiarh.purenews.ui.weather.fragment.WeatherFragment;
 import com.xiarh.purenews.util.SnackBarUtil;
 
 import butterknife.BindView;
@@ -46,7 +46,7 @@ public class MainUI extends BaseActivity {
     protected void init() {
         AHBottomNavigationItem item1 = new AHBottomNavigationItem(R.string.news, R.drawable.ic_new, R.color.black);
         AHBottomNavigationItem item2 = new AHBottomNavigationItem(R.string.video, R.drawable.ic_video, R.color.black);
-        AHBottomNavigationItem item3 = new AHBottomNavigationItem(R.string.picture, R.drawable.ic_weather, R.color.black);
+        AHBottomNavigationItem item3 = new AHBottomNavigationItem(R.string.weather, R.drawable.ic_weather, R.color.black);
         AHBottomNavigationItem item4 = new AHBottomNavigationItem(R.string.person_center, R.drawable.ic_person_center, R.color.black);
         mBottomNavigation.addItem(item1);
         mBottomNavigation.addItem(item2);
