@@ -9,23 +9,30 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/toolbar_height" />
 
-    <ScrollView
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/swipefreshlayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:scrollbarSize="2dp"
-        android:scrollbarStyle="outsideOverlay"
-        android:scrollbarThumbVertical="@color/black"
-        android:scrollbars="vertical">
+        android:layout_height="match_parent">
 
-        <TextView
-            android:id="@+id/news_detail_body"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="16dp"
-            android:layout_marginTop="10dp"
-            android:lineSpacingExtra="6dp"
-            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-            android:textSize="16sp" />
-    </ScrollView>
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scrollbarSize="2dp"
+            android:scrollbarStyle="outsideOverlay"
+            android:scrollbarThumbVertical="@color/black"
+            android:scrollbars="vertical">
+
+            <TextView
+                android:id="@+id/news_detail_body"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                android:layout_marginTop="10dp"
+                android:lineSpacingExtra="6dp"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                android:textSize="16sp" />
+        </ScrollView>
+
+    </android.support.v4.widget.SwipeRefreshLayout>
 
 </LinearLayout>

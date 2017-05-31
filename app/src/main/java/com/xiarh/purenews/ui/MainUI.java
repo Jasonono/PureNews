@@ -10,6 +10,7 @@ import com.aurelhubert.ahbottomnavigation.AHBottomNavigationItem;
 import com.xiarh.purenews.R;
 import com.xiarh.purenews.base.BaseActivity;
 import com.xiarh.purenews.config.BaseApplication;
+import com.xiarh.purenews.config.Config;
 import com.xiarh.purenews.ui.center.PersonCenterFragment;
 import com.xiarh.purenews.ui.news.fragment.NewsHomeFragment;
 import com.xiarh.purenews.ui.video.fragment.VideoHomeFragment;
@@ -17,6 +18,8 @@ import com.xiarh.purenews.ui.weather.fragment.WeatherFragment;
 import com.xiarh.purenews.util.SnackBarUtil;
 
 import butterknife.BindView;
+import cn.hugeterry.updatefun.UpdateFunGO;
+import cn.hugeterry.updatefun.config.UpdateKey;
 import fm.jiecao.jcvideoplayer_lib.JCVideoPlayer;
 
 public class MainUI extends BaseActivity {
@@ -44,6 +47,13 @@ public class MainUI extends BaseActivity {
 
     @Override
     protected void init() {
+        //此处填上在http://fir.im/注册账号后获得的API_TOKEN以及APP的应用ID
+        UpdateKey.API_TOKEN = Config.API_FIRE_TOKEN;
+        UpdateKey.APP_ID = Config.APP_FIRE_ID;
+//        UpdateKey.DialogOrNotification = UpdateKey.WITH_DIALOG;//通过Dialog来进行下载
+        UpdateKey.DialogOrNotification = UpdateKey.WITH_NOTIFITION;//通过通知栏来进行下载(默认)
+        UpdateFunGO.init(this);
+
         AHBottomNavigationItem item1 = new AHBottomNavigationItem(R.string.news, R.drawable.ic_new, R.color.black);
         AHBottomNavigationItem item2 = new AHBottomNavigationItem(R.string.video, R.drawable.ic_video, R.color.black);
         AHBottomNavigationItem item3 = new AHBottomNavigationItem(R.string.weather, R.drawable.ic_weather, R.color.black);
@@ -82,6 +92,7 @@ public class MainUI extends BaseActivity {
      *
      * @param position
      */
+
     private void switchFragment(int position) {
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         //首先隐藏所有的fragment,避免重叠
@@ -163,5 +174,17 @@ public class MainUI extends BaseActivity {
     protected void onPause() {
         super.onPause();
         JCVideoPlayer.releaseAllVideos();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        UpdateFunGO.onResume(this);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        UpdateFunGO.onStop(this);
     }
 }

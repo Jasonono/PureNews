@@ -9,7 +9,7 @@
     <string name="version">当前版本：</string>
     <string name="github">项目主页</string>
     <string name="advise">意见反馈</string>
-    <string name="downloadurl">下载地址</string>
+    <string name="update">检查更新</string>
     <string name="share_app">应用分享</string>
     <string name="about1">• OkGo - github.com/jeasonlzy/okhttp-OkGo</string>
     <string name="about2">• Glide - github.com/bumptech/glide</string>

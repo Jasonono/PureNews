@@ -67,6 +67,9 @@ public class Config {
 
     public static final String WEATHER_END_URL = "&key=33ebf4d7998a4548942adcad5582e503";
 
+    // APP更新地址
+    public static final String APP_UPDATE_URL = "http://api.fir.im/apps/latest/592e6d2d548b7a1ccf000135?&api_token=ad06cab6f35eb810c666a7b3936e9119";
+
     /**
      * 获取新闻网址
      *
@@ -117,4 +120,10 @@ public class Config {
     public static String getWeatherUrl(String city) {
         return WEATHER_URL + city + WEATHER_END_URL;
     }
+
+    /* 自动更新配置*/
+    //fire.im的token
+    public static  String API_FIRE_TOKEN = "a4f8aa03dc120fc81fcc96464fd03a4b";
+    //fire.im的应用id
+    public static  String APP_FIRE_ID = "57e8ccd4ca87a851e4001199";
 }

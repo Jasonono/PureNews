@@ -2,8 +2,8 @@ package com.xiarh.purenews.ui.news.activity;
 
 import android.content.Intent;
 import android.net.Uri;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -34,7 +34,7 @@ import okhttp3.Response;
  * Created by xiarh on 2017/5/25.
  */
 
-public class NewsDetailActivity extends BaseActivity {
+public class NewsDetailActivity extends BaseActivity implements SwipeRefreshLayout.OnRefreshListener {
 
     @BindView(R.id.toolbar)
     Toolbar toolbar;
@@ -42,6 +42,8 @@ public class NewsDetailActivity extends BaseActivity {
     TextView tvTitle;
     @BindView(R.id.news_detail_body)
     TextView tvDetail;
+    @BindView(R.id.swipefreshlayout)
+    SwipeRefreshLayout swipeRefreshLayout;
 
     private String postId;
 
@@ -56,6 +58,8 @@ public class NewsDetailActivity extends BaseActivity {
 
     @Override
     protected void init() {
+        swipeRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.black));
+        swipeRefreshLayout.setOnRefreshListener(this);
         toolbar.setNavigationIcon(getResources().getDrawable(R.drawable.ic_toolbar_back));
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -87,12 +91,18 @@ public class NewsDetailActivity extends BaseActivity {
                         } catch (Exception e) {
                             SnackBarUtil.showSnackBar(R.string.loadfail, toolbar, NewsDetailActivity.this);
                         }
+                        if (null != swipeRefreshLayout) {
+                            swipeRefreshLayout.setRefreshing(false);
+                        }
                     }
 
                     @Override
                     public void onError(Call call, Response response, Exception e) {
                         super.onError(call, response, e);
                         SnackBarUtil.showSnackBar(e.getMessage(), toolbar, NewsDetailActivity.this);
+                        if (null != swipeRefreshLayout) {
+                            swipeRefreshLayout.setRefreshing(false);
+                        }
                     }
                 });
     }
@@ -176,4 +186,9 @@ public class NewsDetailActivity extends BaseActivity {
     }
 
     private static final String HTML_IMG_TEMPLATE = "<img src=\"http\" />";
+
+    @Override
+    public void onRefresh() {
+        getDetail();
+    }
 }

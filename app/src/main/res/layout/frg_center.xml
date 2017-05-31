@@ -98,7 +98,7 @@
                     android:paddingLeft="20dp"
                     android:paddingRight="20dp"
                     android:paddingTop="10dp"
-                    android:text="@string/downloadurl"
+                    android:text="@string/update"
                     android:textSize="@dimen/size_14sp" />
 
                 <TextView

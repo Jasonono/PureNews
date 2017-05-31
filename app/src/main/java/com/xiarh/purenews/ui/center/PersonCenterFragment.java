@@ -4,14 +4,22 @@ import android.content.Intent;
 import android.net.Uri;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
+import com.lzy.okgo.OkGo;
+import com.lzy.okgo.callback.StringCallback;
 import com.xiarh.purenews.R;
 import com.xiarh.purenews.base.BaseFragment;
+import com.xiarh.purenews.bean.UpdateBean;
+import com.xiarh.purenews.config.Config;
 import com.xiarh.purenews.util.ShareUtil;
+import com.xiarh.purenews.util.SnackBarUtil;
 import com.xiarh.purenews.util.VersionUtil;
 import com.xiarh.purenews.util.WebUtil;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import okhttp3.Call;
+import okhttp3.Response;
 
 /**
  * 我的
@@ -48,15 +56,30 @@ public class PersonCenterFragment extends BaseFragment {
 
     @OnClick(R.id.tv_update)
     public void onTvUpdateClicked() {
-        Uri uri = Uri.parse("https://fir.im/hueweather");
-        Intent intent = new Intent();
-        intent.setAction(Intent.ACTION_VIEW);
-        intent.setData(uri);
-        startActivity(intent);
+        OkGo.get(Config.APP_UPDATE_URL)
+                .tag(this)
+                .execute(new StringCallback() {
+                    @Override
+                    public void onSuccess(String s, Call call, Response response) {
+                        Gson gson = new Gson();
+                        UpdateBean bean = gson.fromJson(s, UpdateBean.class);
+                        if (Integer.valueOf(VersionUtil.getVersionCode(getActivity())) < Integer.valueOf(bean.getVersion())) {
+
+                        } else {
+                            SnackBarUtil.showSnackBar("已经是最新版本~", tvVersion, getActivity());
+                        }
+                    }
+
+                    @Override
+                    public void onError(Call call, Response response, Exception e) {
+                        super.onError(call, response, e);
+                        SnackBarUtil.showSnackBar(e.getMessage(), tvVersion, getActivity());
+                    }
+                });
     }
 
     @OnClick(R.id.tv_share)
     public void onTvShareClicked() {
-        ShareUtil.share(getActivity(), "分享", "https://fir.im/hueweather");
+        ShareUtil.share(getActivity(), "分享", "http://fir.im/PureNews");
     }
 }
