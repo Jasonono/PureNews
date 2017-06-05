@@ -18,6 +18,7 @@ import com.xiarh.purenews.util.WebUtil;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import cn.hugeterry.updatefun.UpdateFunGO;
 import okhttp3.Call;
 import okhttp3.Response;
 
@@ -64,7 +65,8 @@ public class PersonCenterFragment extends BaseFragment {
                         Gson gson = new Gson();
                         UpdateBean bean = gson.fromJson(s, UpdateBean.class);
                         if (Integer.valueOf(VersionUtil.getVersionCode(getActivity())) < Integer.valueOf(bean.getVersion())) {
-
+                            // 手动更新
+                            UpdateFunGO.manualStart(getActivity());
                         } else {
                             SnackBarUtil.showSnackBar("已经是最新版本~", tvVersion, getActivity());
                         }
