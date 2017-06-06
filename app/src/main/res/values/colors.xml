@@ -9,4 +9,5 @@
     <!-- 透明色 -->
     <color name="transparent">#00FFFFFF</color>
     <color name="colorLine">#f1f1f1</color>
+    <color name="fab_color">#545657</color>
 </resources>

@@ -29,4 +29,15 @@
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
+    <android.support.design.widget.FloatingActionButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="16dp"
+        android:clickable="true"
+        android:src="@drawable/ic_arrow"
+        app:fabSize="mini"
+        app:layout_behavior="com.xiarh.purenews.widget.ScrollAwareFABBehavior"
+        app:rippleColor="@color/fab_color" />
+
 </android.support.design.widget.CoordinatorLayout>
