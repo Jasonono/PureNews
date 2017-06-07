@@ -3,7 +3,6 @@ package com.xiarh.purenews.ui.news.fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
@@ -19,7 +18,6 @@ import com.xiarh.purenews.config.Config;
 import com.xiarh.purenews.ui.news.activity.NewsDetailActivity;
 import com.xiarh.purenews.ui.news.adapter.NewsAdapter;
 import com.xiarh.purenews.util.SnackBarUtil;
-import com.xiarh.purenews.util.WebUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -107,6 +105,14 @@ public class NewsFragment extends AbsListFragment<NewsBean> {
                         onDataSuccessReceived(null, LOADFAIL);
                     }
                 });
+    }
+
+    @Override
+    protected void handleScrollEvent(String id) {
+        super.handleScrollEvent(id);
+        if (mID.equals(id)) {
+            mRecyclerView.getLayoutManager().scrollToPosition(0);
+        }
     }
 
     @Override

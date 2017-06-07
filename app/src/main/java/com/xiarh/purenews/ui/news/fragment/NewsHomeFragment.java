@@ -8,11 +8,15 @@ import com.xiarh.purenews.R;
 import com.xiarh.purenews.base.BaseFragment;
 import com.xiarh.purenews.base.TitleAdapter;
 import com.xiarh.purenews.config.Config;
+import com.xiarh.purenews.ui.news.ScrollEvent;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 
 /**
  * 新闻主页
@@ -29,6 +33,9 @@ public class NewsHomeFragment extends BaseFragment {
     private List<Fragment> mFragments = new ArrayList<>();
 
     private String[] mTitles = {"头条", "汽车", "足球", "娱乐", "体育", "财经", "科技", "电影"};
+
+    private String[] mIDs = {Config.HEADLINE_ID, Config.CAR_ID, Config.FOOTBALL_ID, Config.ENTERTAINMENT_ID,
+            Config.SPORTS_ID, Config.FINANCE_ID, Config.TECH_ID, Config.MOVIE_ID};
 
     private TitleAdapter mAdapter;
 
@@ -51,5 +58,11 @@ public class NewsHomeFragment extends BaseFragment {
         mViewPager.setAdapter(mAdapter);
         mTabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
         mTabLayout.setupWithViewPager(mViewPager);
+    }
+
+    @OnClick(R.id.fab)
+    public void onViewClicked() {
+        int position = mViewPager.getCurrentItem();
+        EventBus.getDefault().post(new ScrollEvent(mIDs[position]));
     }
 }

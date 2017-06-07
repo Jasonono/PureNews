@@ -7,6 +7,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
@@ -27,6 +28,7 @@ import com.zzhoujay.richtext.RichText;
 import java.lang.reflect.Method;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 import okhttp3.Call;
 import okhttp3.Response;
 
@@ -44,6 +46,8 @@ public class NewsDetailActivity extends BaseActivity implements SwipeRefreshLayo
     TextView tvDetail;
     @BindView(R.id.swipefreshlayout)
     SwipeRefreshLayout swipeRefreshLayout;
+    @BindView(R.id.scrollView)
+    ScrollView scrollView;
 
     private String postId;
 
@@ -190,5 +194,10 @@ public class NewsDetailActivity extends BaseActivity implements SwipeRefreshLayo
     @Override
     public void onRefresh() {
         getDetail();
+    }
+
+    @OnClick(R.id.fab)
+    public void onViewClicked() {
+        scrollView.fullScroll(ScrollView.FOCUS_UP);
     }
 }

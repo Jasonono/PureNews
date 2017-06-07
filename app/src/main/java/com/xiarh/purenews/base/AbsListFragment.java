@@ -1,6 +1,5 @@
 package com.xiarh.purenews.base;
 
-import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
@@ -10,7 +9,11 @@ import android.view.View;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.xiarh.purenews.R;
 import com.xiarh.purenews.animation.CustomAnimation;
-import com.xiarh.purenews.config.Config;
+import com.xiarh.purenews.ui.news.ScrollEvent;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.List;
 
@@ -112,7 +115,7 @@ public abstract class AbsListFragment<T> extends BaseFragment implements SwipeRe
         return new View.OnAttachStateChangeListener() {
             @Override
             public void onViewAttachedToWindow(View v) {
-                
+
             }
 
             @Override
@@ -166,5 +169,30 @@ public abstract class AbsListFragment<T> extends BaseFragment implements SwipeRe
                 mIndex = 0;
                 break;
         }
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        EventBus.getDefault().unregister(this);
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onScrollEvent(ScrollEvent event) {
+        handleScrollEvent(event.getId());
+    }
+
+    /**
+     * 返回顶部
+     * @param id
+     */
+    protected void handleScrollEvent(String id) {
+
     }
 }

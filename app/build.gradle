@@ -2,7 +2,7 @@ apply plugin: 'com.android.application'
 apply plugin: 'com.jakewharton.butterknife'
 
 android {
-    compileSdkVersion 25
+    compileSdkVersion 24
     buildToolsVersion "25.0.2"
     defaultConfig {
         applicationId "com.xiarh.purenews"
@@ -45,4 +45,5 @@ dependencies {
     compile 'fm.jiecao:jiecaovideoplayer:5.5.4'
     compile 'com.victor:lib:1.0.4'
     compile 'cn.hugeterry.updatefun:updatefun:2.0.6'
+    compile 'org.greenrobot:eventbus:3.0.0'
 }

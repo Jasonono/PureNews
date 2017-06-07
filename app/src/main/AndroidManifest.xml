@@ -37,7 +37,10 @@
             android:name="com.amap.api.v2.apikey"
             android:value="28e24a9628e3a389441ca32653fde261" />
 
-        <activity android:name=".ui.MainUI">
+        <activity
+            android:name=".ui.MainUI"
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -48,8 +51,7 @@
         <activity
             android:name=".ui.WebUI"
             android:configChanges="orientation"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.Transparent" />
+            android:screenOrientation="portrait" />
 
         <activity
             android:name=".ui.news.activity.NewsDetailActivity"

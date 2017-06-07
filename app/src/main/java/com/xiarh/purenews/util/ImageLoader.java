@@ -28,6 +28,13 @@ public class ImageLoader {
         return mInstance;
     }
 
+    /**
+     * 加载图片
+     *
+     * @param context
+     * @param imgUrl
+     * @param imageView
+     */
     public void with(Context context, Object imgUrl, ImageView imageView) {
         Glide.with(context)
                 .load(imgUrl)
@@ -35,6 +42,28 @@ public class ImageLoader {
                 .into(imageView);
     }
 
+    /**
+     * 带默认图片
+     *
+     * @param context
+     * @param imgUrl
+     * @param imageView
+     */
+    public void withDefault(Context context, Object imgUrl, ImageView imageView) {
+        Glide.with(context)
+                .load(imgUrl)
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .placeholder(R.drawable.ic_default)
+                .into(imageView);
+    }
+
+    /**
+     * 圆角图片
+     *
+     * @param context
+     * @param imgUrl
+     * @param imageView
+     */
     public void withRound(Context context, Object imgUrl, ImageView imageView) {
         Glide.with(context)
                 .load(imgUrl)
