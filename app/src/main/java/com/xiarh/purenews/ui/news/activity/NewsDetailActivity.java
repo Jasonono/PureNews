@@ -2,6 +2,7 @@ package com.xiarh.purenews.ui.news.activity;
 
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -61,7 +62,7 @@ public class NewsDetailActivity extends BaseActivity implements SwipeRefreshLayo
     }
 
     @Override
-    protected void init() {
+    protected void init(Bundle savedInstanceState) {
         swipeRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.black));
         swipeRefreshLayout.setOnRefreshListener(this);
         toolbar.setNavigationIcon(getResources().getDrawable(R.drawable.ic_toolbar_back));

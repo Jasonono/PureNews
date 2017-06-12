@@ -1,6 +1,7 @@
 package com.xiarh.purenews.ui;
 
 import android.graphics.Color;
+import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.view.KeyEvent;
 import android.widget.FrameLayout;
@@ -37,8 +38,15 @@ public class MainUI extends BaseActivity {
 
     private PersonCenterFragment mCenterFragment;
 
-    //记录第一次点击的时间
+    // 记录第一次点击的时间
     private long clickTime = 0;
+
+    // 记录item位置
+    private int currentPosition = 0;
+
+    private static final String ITEM_POSITION = "item_position";
+
+    private String[] TAGS = {"新闻", "视频", "天气", "我的"};
 
     @Override
     protected int getLayout() {
@@ -46,14 +54,40 @@ public class MainUI extends BaseActivity {
     }
 
     @Override
-    protected void init() {
-        //此处填上在http://fir.im/注册账号后获得的API_TOKEN以及APP的应用ID
+    protected void init(Bundle savedInstanceState) {
+        // 此处填上在http://fir.im/注册账号后获得的API_TOKEN以及APP的应用ID
         UpdateKey.API_TOKEN = Config.API_FIRE_TOKEN;
         UpdateKey.APP_ID = Config.APP_FIRE_ID;
-//        UpdateKey.DialogOrNotification = UpdateKey.WITH_DIALOG;//通过Dialog来进行下载
+        // UpdateKey.DialogOrNotification = UpdateKey.WITH_DIALOG;//通过Dialog来进行下载
         UpdateKey.DialogOrNotification = UpdateKey.WITH_NOTIFITION;//通过通知栏来进行下载(默认)
         UpdateFunGO.init(this);
+        initBottomNavigation();
+        initFragment(savedInstanceState);
+    }
 
+    /**
+     * 初始化碎片
+     *
+     * @param savedInstanceState
+     */
+    private void initFragment(Bundle savedInstanceState) {
+        if (savedInstanceState != null) {
+            mNewsHomeFragment = (NewsHomeFragment) getSupportFragmentManager().findFragmentByTag(TAGS[0]);
+            mVideoHomeFragment = (VideoHomeFragment) getSupportFragmentManager().findFragmentByTag(TAGS[1]);
+            mWeatherFragment = (WeatherFragment) getSupportFragmentManager().findFragmentByTag(TAGS[2]);
+            mCenterFragment = (PersonCenterFragment) getSupportFragmentManager().findFragmentByTag(TAGS[3]);
+            currentPosition = savedInstanceState.getInt(ITEM_POSITION);
+        } else {
+            currentPosition = 0;
+        }
+        switchFragment(currentPosition);
+        mBottomNavigation.setCurrentItem(currentPosition);
+    }
+
+    /**
+     * 初始化底部导航
+     */
+    private void initBottomNavigation() {
         AHBottomNavigationItem item1 = new AHBottomNavigationItem(R.string.news, R.drawable.ic_new, R.color.black);
         AHBottomNavigationItem item2 = new AHBottomNavigationItem(R.string.video, R.drawable.ic_video, R.color.black);
         AHBottomNavigationItem item3 = new AHBottomNavigationItem(R.string.weather, R.drawable.ic_weather, R.color.black);
@@ -67,24 +101,10 @@ public class MainUI extends BaseActivity {
         mBottomNavigation.setOnTabSelectedListener(new AHBottomNavigation.OnTabSelectedListener() {
             @Override
             public boolean onTabSelected(int position, boolean wasSelected) {
-                switch (position) {
-                    case 0:
-                        switchFragment(0);
-                        break;
-                    case 1:
-                        switchFragment(1);
-                        break;
-                    case 2:
-                        switchFragment(2);
-                        break;
-                    case 3:
-                        switchFragment(3);
-                        break;
-                }
+                switchFragment(position);
                 return true;
             }
         });
-        mBottomNavigation.setCurrentItem(0);
     }
 
     /**
@@ -92,7 +112,6 @@ public class MainUI extends BaseActivity {
      *
      * @param position
      */
-
     private void switchFragment(int position) {
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         //首先隐藏所有的fragment,避免重叠
@@ -103,7 +122,7 @@ public class MainUI extends BaseActivity {
                     ft.show(mNewsHomeFragment);
                 } else {
                     mNewsHomeFragment = new NewsHomeFragment();
-                    ft.add(R.id.content, mNewsHomeFragment, "新闻");
+                    ft.add(R.id.content, mNewsHomeFragment, TAGS[0]);
                 }
                 break;
             case 1:
@@ -111,7 +130,7 @@ public class MainUI extends BaseActivity {
                     ft.show(mVideoHomeFragment);
                 } else {
                     mVideoHomeFragment = new VideoHomeFragment();
-                    ft.add(R.id.content, mVideoHomeFragment, "视频");
+                    ft.add(R.id.content, mVideoHomeFragment, TAGS[1]);
                 }
                 break;
             case 2:
@@ -119,7 +138,7 @@ public class MainUI extends BaseActivity {
                     ft.show(mWeatherFragment);
                 } else {
                     mWeatherFragment = new WeatherFragment();
-                    ft.add(R.id.content, mWeatherFragment, "天气");
+                    ft.add(R.id.content, mWeatherFragment, TAGS[2]);
                 }
                 break;
 
@@ -128,7 +147,7 @@ public class MainUI extends BaseActivity {
                     ft.show(mCenterFragment);
                 } else {
                     mCenterFragment = new PersonCenterFragment();
-                    ft.add(R.id.content, mCenterFragment, "我的");
+                    ft.add(R.id.content, mCenterFragment, TAGS[3]);
                 }
                 break;
         }
@@ -149,6 +168,13 @@ public class MainUI extends BaseActivity {
             ft.hide(mWeatherFragment);
         if (null != mCenterFragment)
             ft.hide(mCenterFragment);
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        // 奔溃前保存位置
+        outState.putInt(ITEM_POSITION, mBottomNavigation.getCurrentItem());
     }
 
     @Override

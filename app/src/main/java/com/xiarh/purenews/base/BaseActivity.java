@@ -18,14 +18,14 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     protected abstract int getLayout();
 
-    protected abstract void init();
+    protected abstract void init(Bundle savedInstanceState);
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(getLayout());
         ButterKnife.bind(this);
-        init();
+        init(savedInstanceState);
         BaseApplication.getInstance().addActivity(this);
     }
 

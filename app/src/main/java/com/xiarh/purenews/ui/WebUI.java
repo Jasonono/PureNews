@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.net.http.SslError;
+import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.Toolbar;
 import android.text.ClipboardManager;
@@ -54,7 +55,7 @@ public class WebUI extends BaseActivity implements SwipeRefreshLayout.OnRefreshL
     }
 
     @Override
-    protected void init() {
+    protected void init(Bundle savedInstanceState) {
         toolbar.setNavigationIcon(getResources().getDrawable(R.drawable.ic_toolbar_back));
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
